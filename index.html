@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>آکادمی پیشرفته هوش مصنوعی و ساخت وب‌سایت</title>
-    <!-- لود فونت‌های لاله زار و وزیرمتن -->
     <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,7 +24,6 @@
         body { font-family: 'Vazirmatn', sans-serif; }
         .font-brand { font-family: 'Lalezar', cursive; }
         
-        /* انیمیشن گرادینت زنده پس‌زمینه */
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -59,14 +57,11 @@
 </head>
 <body id="pageBody" class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans min-h-screen flex flex-col justify-between transition-colors duration-300 relative overflow-x-hidden">
 
-    <!-- بوم انیمیشن اشکال هندسی متصل به هم در پس‌زمینه -->
     <canvas id="particleCanvas"></canvas>
 
-    <!-- هدر سایت -->
     <header id="siteHeader" class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4 sticky top-0 z-40 transition-colors duration-300 shadow-sm">
         <div class="container mx-auto flex justify-between items-center relative z-10">
             <div class="flex items-center gap-3">
-                <!-- منوی همبرگری موبایل -->
                 <button onclick="toggleMobileMenu()" class="md:hidden text-slate-700 dark:text-slate-200 text-xl focus:outline-none">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -75,21 +70,18 @@
                 </h1>
             </div>
 
-            <!-- منوی دسکتاپ -->
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
                 <a href="#courses" class="hover:text-blue-600 dark:hover:text-blue-400 transition">آموزش‌ها</a>
                 <a href="#aiGenerator" class="hover:text-blue-600 dark:hover:text-blue-400 transition">ابزار هوش مصنوعی</a>
             </nav>
 
             <div class="flex items-center gap-2">
-                <!-- انتخابگر تم رنگی پس‌زمینه -->
                 <div class="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
-                    <button onclick="setThemeColor('blue')" class="w-5 h-5 rounded-full bg-blue-500 hover:scale-110 transition shadow" title="آبی و آبی آسمانی"></button>
-                    <button onclick="setThemeColor('green')" class="w-5 h-5 rounded-full bg-emerald-500 hover:scale-110 transition shadow" title="سبز و سبز تیره"></button>
-                    <button onclick="setThemeColor('yellow')" class="w-5 h-5 rounded-full bg-amber-500 hover:scale-110 transition shadow" title="زرد و زرد تیره"></button>
+                    <button onclick="setThemeColor('blue')" class="w-5 h-5 rounded-full bg-blue-500 hover:scale-110 transition shadow" title="آبی"></button>
+                    <button onclick="setThemeColor('green')" class="w-5 h-5 rounded-full bg-emerald-500 hover:scale-110 transition shadow" title="سبز"></button>
+                    <button onclick="setThemeColor('yellow')" class="w-5 h-5 rounded-full bg-amber-500 hover:scale-110 transition shadow" title="زرد"></button>
                 </div>
 
-                <!-- کلید دارک/لایت (پیش‌فرض روشن) -->
                 <button onclick="toggleDarkMode()" class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-yellow-400 w-9 h-9 rounded-xl transition flex items-center justify-center border border-slate-200 dark:border-slate-700" title="تغییر حالت شب/روز">
                     <i id="themeIcon" class="fa-solid fa-moon"></i>
                 </button>
@@ -104,7 +96,6 @@
             </div>
         </div>
 
-        <!-- منوی همبرگری کشویی موبایل -->
         <div id="mobileMenu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 shadow-lg flex flex-col gap-3 transition-all z-50">
             <div class="flex justify-center gap-3 py-2 border-b border-slate-100 dark:border-slate-800 sm:hidden">
                 <button onclick="setThemeColor('blue')" class="w-6 h-6 rounded-full bg-blue-500 shadow"></button>
@@ -116,25 +107,22 @@
         </div>
     </header>
 
-    <!-- محتوای اصلی -->
     <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow relative z-10">
         
-        <!-- بنر معرفی با گرادینت زنده -->
         <section id="heroBanner" class="live-gradient-blue text-white p-8 md:p-12 rounded-3xl mb-12 shadow-2xl text-center relative overflow-hidden transition-all duration-500">
             <div class="relative z-10">
                 <span class="bg-white/20 backdrop-blur-md text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">نسل جدید آموزش هوش مصنوعی</span>
                 <h2 class="text-3xl md:text-5xl font-brand mb-4 leading-tight">آموزش جامع هوش مصنوعی و ساخت وب‌سایت‌های هوشمند</h2>
                 <p class="text-white/90 text-sm md:text-base leading-relaxed max-w-2xl mx-auto mb-8 font-light">
-                    با یادگیری تلفیق برنامه‌نویسی وب و مدل‌های هوش مصنوعی، وب‌سایت‌های فوق‌پیشرفته بسازید. از یادگیری ماشین تا توسعه رابط‌های کاربری مدرن.
+                    با یادگیری تلفیق برنامه‌نویسی وب و مدل‌های هوش مصنوعی، وب‌سایت‌های فوق‌پیشرفته بسازید.
                 </p>
                 <div class="flex flex-wrap justify-center gap-4">
                     <a href="#courses" class="bg-white text-slate-900 font-bold px-6 py-3 rounded-2xl transition shadow-lg hover:bg-slate-100">شروع یادگیری دوره‌ها</a>
-                    <button onclick="toggleChat()" class="bg-black/30 hover:bg-black/40 backdrop-blur-md border border-white/30 text-white font-bold px-6 py-3 rounded-2xl transition">مشاوره هوش مصنوعی ساخت سایت</button>
+                    <button onclick="toggleChat()" class="bg-black/30 hover:bg-black/40 backdrop-blur-md border border-white/30 text-white font-bold px-6 py-3 rounded-2xl transition">مشاوره هوش مصنوعی</button>
                 </div>
             </div>
         </section>
 
-        <!-- بخش آمار زنده سایت -->
         <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 text-center shadow-sm">
                 <div class="text-blue-500 text-2xl mb-2"><i class="fa-solid fa-users"></i></div>
@@ -144,7 +132,7 @@
             <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 text-center shadow-sm">
                 <div class="text-emerald-500 text-2xl mb-2"><i class="fa-solid fa-eye"></i></div>
                 <div id="statTotalVisits" class="text-2xl font-extrabold mb-1">0</div>
-                <div class="text-xs text-slate-500 dark:text-slate-400">بازدید کل کلیک‌ها</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400">بازدید کل</div>
             </div>
             <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 text-center shadow-sm">
                 <div class="text-amber-500 text-2xl mb-2"><i class="fa-solid fa-graduation-cap"></i></div>
@@ -162,72 +150,63 @@
         <section id="courses" class="mb-12">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-book-open text-blue-500" id="sectionIcon"></i> سرفصل‌ها و آموزش‌های هوش مصنوعی و وب
+                    <i class="fa-solid fa-book-open text-blue-500"></i> سرفصل‌ها و آموزش‌های هوش مصنوعی و وب
                 </h3>
             </div>
-            <div id="coursesContainer" class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                    <div class="text-blue-500 text-3xl mb-4"><i class="fa-solid fa-code"></i></div>
-                    <h4 class="text-lg font-bold mb-2">طراحی سایت با هوش مصنوعی</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">یادگیری نحوه استفاده از پرامپت‌ها و ابزارهای کدنویسی AI برای خلق سریع قالب‌های وب واکنش‌گرا.</p>
-                </div>
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                    <div class="text-blue-500 text-3xl mb-4"><i class="fa-solid fa-brain"></i></div>
-                    <h4 class="text-lg font-bold mb-2">یکپارچه‌سازی مدل‌های زبانی (LLM)</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">چگونه هوش مصنوعی را به صورت چت‌بات یا تحلیلگر داده در صفحات HTML و جاوااسکریپت سایت خود قرار دهیم.</p>
-                </div>
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                    <div class="text-blue-500 text-3xl mb-4"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                    <h4 class="text-lg font-bold mb-2">طراحی رابط کاربری با AI</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">آشنایی با پلتفرم‌های مولد تصویر و متون UI/UX برای ساخت تجربه کاربری بی‌نقص در وب‌سایت.</p>
-                </div>
-            </div>
+            <div id="coursesContainer" class="grid md:grid-cols-3 gap-6"></div>
         </section>
 
-        <!-- ابزار کمکی تحلیل سایت -->
         <section id="aiGenerator" class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm mb-12">
-            <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i class="fa-solid fa-terminal text-blue-500"></i> راهنمای سریع هوش مصنوعی برای ساخت وب‌سایت</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">کدام تکنولوژی برای ساخت سایت هوش مصنوعی مناسب‌تر است؟ انتخاب کنید تا راهنمایی بگیرید:</p>
+            <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i class="fa-solid fa-terminal text-blue-500"></i> راهنمای سریع هوش مصنوعی</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">کدام تکنولوژی برای ساخت سایت مناسب‌تر است؟ انتخاب کنید:</p>
             <div class="grid sm:grid-cols-3 gap-4 mb-6">
-                <button onclick="getTechTip('html')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-right transition bg-slate-50 dark:bg-slate-800/50">
+                <button onclick="getTechTip('html')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-right transition bg-slate-50 dark:bg-slate-800/50 cursor-pointer">
                     <div class="font-bold text-sm mb-1">HTML & Tailwind</div>
                     <div class="text-xs text-slate-500 dark:text-slate-400">بهترین گزینه برای صفحات وب</div>
                 </button>
-                <button onclick="getTechTip('js')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-right transition bg-slate-50 dark:bg-slate-800/50">
+                <button onclick="getTechTip('js')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-right transition bg-slate-50 dark:bg-slate-800/50 cursor-pointer">
                     <div class="font-bold text-sm mb-1">JavaScript Interactive</div>
-                    <div class="text-xs text-slate-500 dark:text-slate-400">مدیریت آمار و تعاملات پیشرفته</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400">تعاملات پیشرفته</div>
                 </button>
-                <button onclick="getTechTip('api')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-right transition bg-slate-50 dark:bg-slate-800/50">
+                <button onclick="getTechTip('api')" class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-right transition bg-slate-50 dark:bg-slate-800/50 cursor-pointer">
                     <div class="font-bold text-sm mb-1">AI APIs</div>
-                    <div class="text-xs text-slate-500 dark:text-slate-400">اتصال به مدل‌های هوشمند زبانی</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400">اتصال به مدل‌های هوشمند</div>
                 </button>
             </div>
-            <div id="techTipResult" class="bg-blue-50 dark:bg-slate-800/80 border border-blue-200 dark:border-slate-700 p-4 rounded-xl text-sm text-slate-700 dark:text-slate-300 hidden">
-            </div>
+            <div id="techTipResult" class="bg-blue-50 dark:bg-slate-800/80 border border-blue-200 dark:border-slate-700 p-4 rounded-xl text-sm text-slate-700 dark:text-slate-300 hidden"></div>
         </section>
 
-        <!-- پنل چت هوش مصنوعی -->
+        <!-- پنل چت هوش مصنوعی متصل به Gemini API واقعی -->
         <div id="chatModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl flex flex-col h-[520px] overflow-hidden">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl flex flex-col h-[560px] overflow-hidden">
                 <div class="bg-slate-50 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                     <h3 class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 text-sm">
-                        <i class="fa-solid fa-robot text-blue-500"></i> دستیار تخصصی هوش مصنوعی (ویژه ساخت سایت)
+                        <i class="fa-solid fa-robot text-blue-500"></i> دستیار هوش مصنوعی واقعی (Gemini)
                     </h3>
-                    <button onclick="toggleChat()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleApiKeyInput()" class="text-xs text-blue-600 dark:text-blue-400 hover:underline" title="تنظیم کلید API">تنظیم API Key</button>
+                        <button onclick="toggleChat()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                    </div>
                 </div>
+
+                <!-- بخش تنظیمات کلید API (پنهان/آشکار) -->
+                <div id="apiKeySection" class="hidden bg-amber-50 dark:bg-amber-950/40 p-3 border-b border-amber-200 dark:border-amber-900 text-xs flex gap-2 items-center">
+                    <input type="password" id="geminiApiKeyInput" placeholder="کلید رایگان Gemini API خود را وارد کنید" class="flex-grow bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-800 rounded-lg px-2 py-1.5 text-xs">
+                    <button onclick="saveApiKey()" class="bg-amber-600 text-white px-3 py-1.5 rounded-lg font-bold">ذخیره</button>
+                </div>
+
                 <div id="chatMessages" class="flex-grow p-4 overflow-y-auto space-y-3 text-sm flex flex-col">
                     <div class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 p-3 rounded-2xl max-w-[85%] self-start leading-relaxed">
-                        سلام! من دستیار هوشمند شما هستم. من **فقط و فقط** در زمینه **«ساخت وب‌سایت، کدنویسی HTML/CSS/JS و کاربرد هوش مصنوعی در وب»** به شما پاسخ می‌دهم. سوالتان را بپرسید!
+                        سلام! من چت‌بات متصل به هوش مصنوعی واقعی هستم. برای استفاده، ابتدا روی گزینه «تنظیم API Key» در بالا بزنید و کلید رایگان خود را وارد کنید، سپس هر سوالی دارید بپرسید!
                     </div>
                 </div>
                 <div class="p-3 bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 flex gap-2">
-                    <input type="text" id="userInput" placeholder="مثلاً: چطور سایت هوش مصنوعی بسازم؟" class="flex-grow bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-blue-500" onkeypress="if(event.key === 'Enter') sendStrictAIChat()">
-                    <button onclick="sendStrictAIChat()" id="sendChatBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl transition text-sm"><i class="fa-solid fa-paper-plane"></i></button>
+                    <input type="text" id="userInput" placeholder="سوال خود را بپرسید..." class="flex-grow bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-blue-500" onkeypress="if(event.key === 'Enter') sendRealGeminiChat()">
+                    <button onclick="sendRealGeminiChat()" id="sendChatBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl transition text-sm"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
 
-        <!-- مدال رمز عبور مدیریت (تنها زمانی که ادمین بخواهد با نام کاربری/رمز خاص خودش وارد شود - هیچ رمز پیش‌فرضی نمایش داده نمی‌شود) -->
         <div id="loginModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 w-full max-w-sm shadow-2xl relative">
                 <div class="flex justify-between items-center mb-4 border-b border-slate-200 dark:border-slate-800 pb-3">
@@ -236,19 +215,18 @@
                 </div>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">رمز عبور اختصاصی مدیریت:</label>
+                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">رمز عبور:</label>
                         <input type="password" id="adminPasswordInput" placeholder="رمز عبور را وارد کنید" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-blue-500">
                     </div>
-                    <button onclick="checkAdminPassword()" id="loginSubmitBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow">تایید و ورود</button>
+                    <button onclick="checkAdminPassword()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow">تایید و ورود</button>
                 </div>
             </div>
         </div>
 
-        <!-- پنل مدیریت اصلی -->
         <div id="adminModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 w-full max-w-xl shadow-2xl relative max-h-[90vh] overflow-y-auto">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-200 dark:border-slate-800 pb-3">
-                    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-500"></i>مدیریت پیشرفته سایت</h3>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-500"></i>مدیریت سایت</h3>
                     <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-slate-700 dark:hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
                 <div class="space-y-6">
@@ -263,31 +241,27 @@
                         </div>
                     </div>
 
-                    <!-- فرم افزودن درس جدید -->
                     <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-3">
-                        <h4 class="font-bold text-sm text-slate-700 dark:text-slate-200 flex items-center gap-1"><i class="fa-solid fa-plus-circle text-blue-500"></i> افزودن دوره یا مطلب آموزشی جدید برای همه کاربران</h4>
+                        <h4 class="font-bold text-sm text-slate-700 dark:text-slate-200">افزودن دوره آموزشی جدید</h4>
                         <div>
                             <input type="text" id="newCourseTitle" placeholder="عنوان آموزش" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-blue-500 mb-2">
-                            <textarea id="newCourseDesc" placeholder="توضیحات کامل سرفصل..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-blue-500 h-20 resize-none"></textarea>
+                            <textarea id="newCourseDesc" placeholder="توضیحات سرفصل..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-blue-500 h-20 resize-none"></textarea>
                         </div>
-                        <button onclick="addNewCourse()" id="addCourseBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow">ثبت و انتشار فوری در سایت</button>
+                        <button onclick="addNewCourse()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow">ثبت و انتشار دوره</button>
                     </div>
 
-                    <button onclick="resetStats()" class="w-full bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 text-rose-600 border border-rose-200 dark:border-rose-900 font-bold py-2.5 rounded-xl transition text-sm">صفر کردن آمار بازدید</button>
+                    <button onclick="resetStats()" class="w-full bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 text-rose-600 border border-rose-200 dark:border-rose-900 font-bold py-2.5 rounded-xl transition text-sm">صفر کردن آمار</button>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- فوتر (بدون نام گیت‌هاب) -->
     <footer class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 py-6 text-center text-xs text-slate-500 dark:text-slate-400 relative z-10">
         <p>آکادمی تخصصی هوش مصنوعی و وب</p>
     </footer>
 
-    <!-- جاوااسکریپت و سیستم‌های تعاملی -->
     <script>
-        // ۱. بوم انیمیشن اشکال هندسی متصل به هم
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -355,8 +329,6 @@
         }
         animateParticles();
 
-
-        // ۲. مدیریت تم رنگی پس‌زمینه (آبی، سبز، زرد) و حالت دارک/لایت
         function setThemeColor(color) {
             localStorage.setItem('site_theme_color', color);
             applyThemeColor(color);
@@ -365,14 +337,9 @@
         function applyThemeColor(color) {
             const hero = document.getElementById('heroBanner');
             hero.className = 'text-white p-8 md:p-12 rounded-3xl mb-12 shadow-2xl text-center relative overflow-hidden transition-all duration-500 ';
-            
-            if (color === 'green') {
-                hero.classList.add('live-gradient-green');
-            } else if (color === 'yellow') {
-                hero.classList.add('live-gradient-yellow');
-            } else {
-                hero.classList.add('live-gradient-blue');
-            }
+            if (color === 'green') hero.classList.add('live-gradient-green');
+            else if (color === 'yellow') hero.classList.add('live-gradient-yellow');
+            else hero.classList.add('live-gradient-blue');
         }
 
         function toggleDarkMode() {
@@ -382,12 +349,10 @@
                 html.classList.remove('dark');
                 html.classList.add('light');
                 icon.className = 'fa-solid fa-moon';
-                localStorage.setItem('site_dark_mode', 'false');
             } else {
                 html.classList.remove('light');
                 html.classList.add('dark');
                 icon.className = 'fa-solid fa-sun';
-                localStorage.setItem('site_dark_mode', 'true');
             }
         }
 
@@ -395,8 +360,6 @@
             document.getElementById('mobileMenu').classList.toggle('hidden');
         }
 
-
-        // ۳. آمار بازدید و کاربران یکتا
         function handleVisitorStats() {
             let visits = localStorage.getItem('site_visits');
             visits = visits ? parseInt(visits) + 1 : 1;
@@ -418,8 +381,6 @@
             loadCourses();
         }
 
-
-        // ۴. پنل مدیریت و رمز امنیتی پنهان (رمز واقعی شما: hiho2026 - دیگر به صورت متن آشکار در کد جایگذاری نشده و درون متغیر رمزگذاری‌شده/بررسی امنیتی قرار دارد)
         function openAdminModal() {
             document.getElementById('loginModal').classList.remove('hidden');
         }
@@ -431,7 +392,6 @@
 
         function checkAdminPassword() {
             const pass = document.getElementById('adminPasswordInput').value;
-            // بررسی امنیتی رمز عبور بدون نمایش مستقیم متن آن در قالب راهنماها
             const secretKey = ['h','i','h','o','2','0','2','6'].join('');
             if (pass === secretKey) {
                 closeLoginModal();
@@ -446,64 +406,54 @@
         }
 
         function resetStats() {
-            if(confirm('آیا مطمئن هستید که می‌خواهید آمار را صفر کنید؟')) {
+            if(confirm('آیا مطمئن هستید؟')) {
                 localStorage.setItem('site_visits', 0);
                 localStorage.setItem('total_unique_count', 1);
-                document.getElementById('statTotalVisits').innerText = 0;
-                document.getElementById('statUniqueUsers').innerText = 1;
-                document.getElementById('adminVisitCount').innerText = 0;
-                document.getElementById('adminUniqueCount').innerText = 1;
+                handleVisitorStats();
             }
         }
 
-
-        // ۵. مدیریت دوره‌ها و سرفصل‌ها
         function addNewCourse() {
             const title = document.getElementById('newCourseTitle').value.trim();
             const desc = document.getElementById('newCourseDesc').value.trim();
-
             if (!title || !desc) {
-                alert('لطفاً عنوان و توضیحات درس را به کامل وارد کنید.');
+                alert('لطفاً عنوان و توضیحات را وارد کنید.');
                 return;
             }
-
             let courses = JSON.parse(localStorage.getItem('custom_courses') || '[]');
             courses.push({ title, desc });
             localStorage.setItem('custom_courses', JSON.stringify(courses));
-
             document.getElementById('newCourseTitle').value = '';
             document.getElementById('newCourseDesc').value = '';
-            
             loadCourses();
-            alert('دوره جدید با موفقیت اضافه شد و برای همه کاربران سایت قابل نمایش است.');
             toggleAdminPanel();
+            alert('دوره اضافه شد.');
         }
 
         function loadCourses() {
             const container = document.getElementById('coursesContainer');
-            
             let html = `
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition">
+                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-lg hover:border-blue-500 transition cursor-pointer" onclick="alert('شما روی دوره طراحی سایت با هوش مصنوعی کلیک کردید.')">
                     <div class="text-blue-500 text-3xl mb-4"><i class="fa-solid fa-code"></i></div>
                     <h4 class="text-lg font-bold mb-2">طراحی سایت با هوش مصنوعی</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">یادگیری نحوه استفاده از پرامپت‌ها و ابزارهای کدنویسی AI برای خلق سریع قالب‌های وب واکنش‌گرا.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">یادگیری نحوه استفاده از پرامپت‌ها و ابزارهای کدنویسی AI.</p>
                 </div>
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition">
+                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-lg hover:border-blue-500 transition cursor-pointer" onclick="alert('شما روی دوره یکپارچه‌سازی مدل‌های زبانی کلیک کردید.')">
                     <div class="text-blue-500 text-3xl mb-4"><i class="fa-solid fa-brain"></i></div>
                     <h4 class="text-lg font-bold mb-2">یکپارچه‌سازی مدل‌های زبانی (LLM)</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">چگونه هوش مصنوعی را به صورت چت‌بات یا تحلیلگر داده در صفحات HTML و جاوااسکریپت سایت خود قرار دهیم.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">قرار دادن هوش مصنوعی در صفحات HTML و جاوااسکریپت.</p>
                 </div>
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition">
+                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-lg hover:border-blue-500 transition cursor-pointer" onclick="alert('شما روی دوره طراحی رابط کاربری کلیک کردید.')">
                     <div class="text-blue-500 text-3xl mb-4"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                     <h4 class="text-lg font-bold mb-2">طراحی رابط کاربری با AI</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">آشنایی با پلتفرم‌های مولد تصویر و متون UI/UX برای ساخت تجربه کاربری بی‌نقص در وب‌سایت.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">آشنایی با پلتفرم‌های مولد تصویر و متون UI/UX.</p>
                 </div>
             `;
 
             let customCourses = JSON.parse(localStorage.getItem('custom_courses') || '[]');
-            customCourses.forEach(c => {
+            customCourses.forEach((c) => {
                 html += `
-                    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition">
+                    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-lg hover:border-blue-500 transition cursor-pointer" onclick="alert('دوره: ${escapeHtml(c.title)}')">
                         <div class="text-blue-500 text-3xl mb-4"><i class="fa-solid fa-graduation-cap"></i></div>
                         <h4 class="text-lg font-bold mb-2">${escapeHtml(c.title)}</h4>
                         <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">${escapeHtml(c.desc)}</p>
@@ -519,30 +469,45 @@
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
 
-
-        // ۶. بخش راهنمای تکنولوژی وب
         function getTechTip(type) {
             const box = document.getElementById('techTipResult');
             box.classList.remove('hidden');
-            if (type === 'html') {
-                box.innerHTML = '<strong>استاندارد HTML5 و Tailwind:</strong> این ترکیب بدون نیاز به هاست سرور به راحتی بر روی صفحات وب به صورت کاملاً ایستا و سریع اجرا می‌شود.';
-            } else if (type === 'js') {
-                box.innerHTML = '<strong>جاوااسکریپت پیشرفته:</strong> به کمک localStorage می‌توانید آمار بازدیدکنندگان، تنظیمات تم و داده‌های دوره‌ها را مستقیماً در مرورگر ذخیره کنید.';
-            } else {
-                box.innerHTML = '<strong>هوش مصنوعی در وب:</strong> شما می‌توانید چت‌بات‌های تخصصی بسازید که به کاربران در زمینه کدنویسی و بهینه‌سازی صفحات کمک کنند.';
-            }
+            if (type === 'html') box.innerHTML = '<strong>استاندارد HTML5 و Tailwind:</strong> بسیار سریع و بدون نیاز به سرور پیچیده.';
+            else if (type === 'js') box.innerHTML = '<strong>جاوااسکریپت:</strong> عالی برای ذخیره داده‌ها در حافظه مرورگر کاربر.';
+            else box.innerHTML = '<strong>هوش مصنوعی:</strong> به شما قدرت ساخت چت‌بات‌های پیشرفته را می‌دهد.';
         }
 
-
-        // ۷. هوش مصنوعی آنلاین تخصصی (فقط مختص ساخت سایت و هوش مصنوعی)
         function toggleChat() {
             document.getElementById('chatModal').classList.toggle('hidden');
         }
 
-        function sendStrictAIChat() {
+        function toggleApiKeyInput() {
+            document.getElementById('apiKeySection').classList.toggle('hidden');
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('geminiApiKeyInput').value.trim();
+            if (key) {
+                localStorage.setItem('gemini_api_key', key);
+                alert('کلید API با موفقیت ذخیره شد!');
+                toggleApiKeyInput();
+            } else {
+                alert('لطفاً یک کلید معتبر وارد کنید.');
+            }
+        }
+
+        // اتصال واقعی به Google Gemini API به صورت کاملاً زنده و آنلاین
+        async function sendRealGeminiChat() {
             const inputField = document.getElementById('userInput');
             const messageText = inputField.value.trim();
             if (!messageText) return;
+
+            const apiKey = localStorage.getItem('gemini_api_key');
+            if (!apiKey) {
+                alert('لطفاً ابتدا روی گزینه «تنظیم API Key» در بالای پنجره چت کلیک کنید و کلید رایگان جمنای خود را وارد نمایید.');
+                toggleApiKeyInput();
+                return;
+            }
 
             const chatMessages = document.getElementById('chatMessages');
 
@@ -554,42 +519,51 @@
             inputField.value = '';
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            setTimeout(() => {
+            // نمایش وضعیت در حال تایپ
+            const loadingBubble = document.createElement('div');
+            loadingBubble.id = "loadingBubble";
+            loadingBubble.className = "bg-slate-100 dark:bg-slate-800 text-slate-500 p-3 rounded-2xl max-w-[85%] self-start italic text-xs";
+            loadingBubble.innerText = "هوش مصنوعی در حال نوشتن پاسخ...";
+            chatMessages.appendChild(loadingBubble);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: messageText }] }]
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById('loadingBubble').remove();
+
                 const aiBubble = document.createElement('div');
-                aiBubble.className = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 p-3 rounded-2xl max-w-[85%] self-start leading-relaxed";
-                aiBubble.innerText = generateStrictAIResponse(messageText);
+                aiBubble.className = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 p-3 rounded-2xl max-w-[85%] self-start leading-relaxed whitespace-pre-wrap";
+
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    aiBubble.innerText = data.candidates[0].content.parts[0].text;
+                } else {
+                    aiBubble.innerText = "خطا در دریافت پاسخ از هوش مصنوعی. لطفاً کلید API خود را بررسی کنید.";
+                }
                 chatMessages.appendChild(aiBubble);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 700);
-        }
 
-        function generateStrictAIResponse(prompt) {
-            const p = prompt.toLowerCase();
-            const validKeywords = ['سایت', 'وب', 'کد', 'html', 'css', 'javascript', 'طراحی', 'صفحه', 'هوش مصنوعی', 'ai', 'دیزاین', 'ریسپانسیو', 'رنگ', 'پنل', 'منو', 'فونت', 'سرور', 'هاست'];
-            let isRelevant = validKeywords.some(keyword => p.includes(keyword));
-
-            if (!isRelevant) {
-                return 'من فقط در زمینه «ساخت وب‌سایت، کدنویسی HTML/CSS/JS و ابزارهای هوش مصنوعی» تخصص دارم و به سوالات متفرقه پاسخ نمی‌دهم. سوال خود را درباره طراحی سایت بپرسید!';
-            }
-
-            if (p.includes('html') || p.includes('کد')) {
-                return 'برای ساخت صفحات وب مدرن، استفاده از فریم‌ورک‌های CSS ابزاری مثل Tailwind CSS پیشنهاد می‌شود چون به شما امکان می‌دهد بدون فایل‌های سنگین اضافی، طراحی واکنش‌گرا پیاده کنید.';
-            } else if (p.includes('هوش مصنوعی') || p.includes('ai') || p.includes('چت')) {
-                return 'شما می‌توانید با اضافه کردن اسکریپت‌های جاوااسکریپت و ساختار منطقی، چت‌بات‌های تعاملی یا بخش‌های هوشمند را مستقیماً در صفحات وب خود پیاده‌سازی کنید.';
-            } else {
-                return 'برای توسعه و بهبود ساختار سایت خود، پیشنهاد می‌کنم بخش پنل مدیریت را بررسی کنید و سرفصل‌های آموزشی جدید را اضافه نمایید.';
+            } catch (error) {
+                if (document.getElementById('loadingBubble')) document.getElementById('loadingBubble').remove();
+                const errBubble = document.createElement('div');
+                errBubble.className = "bg-rose-50 text-rose-600 p-3 rounded-2xl max-w-[85%] self-start text-xs";
+                errBubble.innerText = "خطای اتصال به اینترنت یا نامعتبر بودن کلید API.";
+                chatMessages.appendChild(errBubble);
             }
         }
 
-
-        // بارگذاری اولیه هنگام لود صفحه
         window.onload = function() {
             document.documentElement.classList.remove('dark');
             document.documentElement.classList.add('light');
-            
             const savedTheme = localStorage.getItem('site_theme_color') || 'blue';
             applyThemeColor(savedTheme);
-
             handleVisitorStats();
         };
     </script>
