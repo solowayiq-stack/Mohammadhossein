@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آکادمی هوش مصنوعی | مرجع تخصصی یادگیری AI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Vazirmatn & Lalezar -->
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                        title: ['Lalezar', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        h1, h2, h3, .font-title {
+            font-family: 'Lalezar', cursive;
+            letter-spacing: 0.5px;
+        }
+        .animated-gradient {
+            background-size: 200% 200%;
+            animation: gradientShift 12s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body id="page-body" class="h-full flex flex-col transition-colors duration-500 animated-gradient from-amber-900 via-yellow-800 to-amber-950 text-white">
+
+    <canvas id="canvas-bg"></canvas>
+
+    <!-- هدر سایت -->
+    <header id="site-header" class="bg-black/30 backdrop-blur-md border-b border-white/10 sticky top-0 z-50 shadow-lg transition-colors duration-300">
+        <div class="container mx-auto flex flex-wrap justify-between items-center p-4">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div id="header-icon-box" class="bg-white/10 p-2.5 rounded-xl border border-white/20 shadow-inner">
+                    <i class="fas fa-brain text-2xl text-amber-300" id="header-icon"></i>
+                </div>
+                <div>
+                    <h1 id="header-title" class="text-2xl font-bold tracking-wide m-0">مرجع پیشرفته هوش مصنوعی</h1>
+                    <p id="header-subtitle" class="text-xs text-white/70 font-light">آموزش، ابزارها و ترفندهای هوش مصنوعی</p>
+                </div>
+            </div>
+
+            <!-- دکمه‌های ناوبری، انتخاب تم رنگی و لایت/دارک -->
+            <div class="flex items-center gap-2 mt-3 md:mt-0 flex-wrap">
+                <!-- انتخاب پالت رنگی (سبز، آبی، زرد) -->
+                <div class="flex bg-black/20 p-1 rounded-xl border border-white/10">
+                    <button onclick="setColorTheme('emerald')" title="سبز" class="px-2.5 py-1.5 rounded-lg text-xs font-medium transition hover:bg-white/10" id="theme-emerald">سبز</button>
+                    <button onclick="setColorTheme('blue')" title="آبی" class="px-2.5 py-1.5 rounded-lg text-xs font-medium transition hover:bg-white/10" id="theme-blue">آبی</button>
+                    <button onclick="setColorTheme('yellow')" title="زرد" class="px-2.5 py-1.5 rounded-lg text-xs font-medium transition bg-yellow-500 text-black font-bold shadow" id="theme-yellow">زرد</button>
+                </div>
+
+                <!-- انتخاب حالت لایت / دارک -->
+                <div class="flex bg-black/20 p-1 rounded-xl border border-white/10">
+                    <button onclick="setMode('light')" title="حالت روشن" class="px-2.5 py-1.5 rounded-lg text-xs font-medium transition hover:bg-white/10" id="mode-light"><i class="fas fa-sun"></i></button>
+                    <button onclick="setMode('dark')" title="حالت تیره" class="px-2.5 py-1.5 rounded-lg text-xs font-medium transition hover:bg-white/10" id="mode-dark"><i class="fas fa-moon"></i></button>
+                </div>
+
+                <button onclick="showSection('tutorials')" class="nav-btn px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/15 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5">
+                    <i class="fas fa-book-open"></i> آموزش‌ها
+                </button>
+                <button onclick="showSection('tools')" class="nav-btn px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/15 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5">
+                    <i class="fas fa-toolbox"></i> ابزارها
+                </button>
+                <button onclick="checkAdminAccess()" class="nav-btn px-3 py-2 bg-white/20 hover:bg-white/30 border border-white/20 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5 font-medium">
+                    <i class="fas fa-lock"></i> مدیریت
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- محتوای اصلی -->
+    <main class="container mx-auto p-4 flex-grow my-6 max-w-6xl">
+        
+        <!-- بخش آموزش‌ها -->
+        <section id="tutorials-section" class="space-y-6">
+            <div class="flex justify-between items-end border-b border-current/10 pb-4">
+                <div>
+                    <h2 class="text-3xl font-bold mb-1">دوره‌ها و مطالب آموزشی</h2>
+                    <p class="section-desc text-sm opacity-80">جدیدترین مقالات و آموزش‌های هوش مصنوعی از مقدماتی تا پیشرفته</p>
+                </div>
+                <div class="hidden md:block">
+                    <span class="text-xs bg-current/10 border border-current/20 px-3 py-1.5 rounded-full" id="tutorial-count-badge">تعداد مطالب: 0</span>
+                </div>
+            </div>
+
+            <div id="tutorials-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- مطالب پویا -->
+            </div>
+        </section>
+
+        <!-- بخش ابزارها -->
+        <section id="tools-section" class="hidden space-y-6">
+            <div class="border-b border-current/10 pb-4">
+                <h2 class="text-3xl font-bold mb-1">ابزارهای آنلاین و کاربردی</h2>
+                <p class="section-desc text-sm opacity-80">ابزارهای کمکی برای تولید محتوا، پرامپت‌نویسی و تست هوش مصنوعی</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card-box backdrop-blur-md p-6 rounded-2xl border shadow-xl space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-amber-500/20 text-amber-500 rounded-xl"><i class="fas fa-magic text-xl"></i></div>
+                        <h3 class="text-xl font-bold">ژنراتور پرامپت هوشمند</h3>
+                    </div>
+                    <p class="text-sm opacity-80">موضوع خود را وارد کنید تا یک ساختار پرامپت استاندارد دریافت کنید.</p>
+                    <input type="text" id="prompt-topic" placeholder="مثلا: طراحی وبسایت..." class="input-field w-full border rounded-xl p-3 text-sm focus:outline-none">
+                    <button onclick="generatePrompt()" class="action-btn w-full py-2.5 rounded-xl text-sm font-medium transition shadow-md">ساخت پرامپت حرفه‌ای</button>
+                    <div id="prompt-result" class="hidden p-3 bg-black/20 border border-current/20 rounded-xl text-xs font-mono"></div>
+                </div>
+
+                <div class="card-box backdrop-blur-md p-6 rounded-2xl border shadow-xl space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-yellow-500/20 text-yellow-500 rounded-xl"><i class="fas fa-calculator text-xl"></i></div>
+                        <h3 class="text-xl font-bold">تخمین‌زن هزینه API</h3>
+                    </div>
+                    <p class="text-sm opacity-80">تعداد کلمات درخواستی خود را تخمین بزنید تا هزینه پردازش محاسبه شود.</p>
+                    <input type="number" id="token-input" placeholder="تعداد کلمات..." class="input-field w-full border rounded-xl p-3 text-sm focus:outline-none">
+                    <button onclick="calculateCost()" class="action-btn w-full py-2.5 rounded-xl text-sm font-medium transition shadow-md">محاسبه تخمینی هزینه</button>
+                    <div id="cost-result" class="hidden p-3 bg-black/20 border border-current/20 rounded-xl text-xs font-mono"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ورود مدیریت -->
+        <section id="login-section" class="hidden max-w-md mx-auto card-box backdrop-blur-md p-8 rounded-2xl border shadow-2xl mt-10">
+            <div class="text-center mb-6">
+                <div class="inline-block p-4 bg-current/10 rounded-2xl border border-current/20 mb-3">
+                    <i class="fas fa-shield-alt text-3xl text-yellow-500"></i>
+                </div>
+                <h2 class="text-2xl font-bold">ورود به پنل مدیریت</h2>
+                <p class="text-xs opacity-80 mt-1">رمز عبور: hiho2026</p>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium mb-2 opacity-90">رمز عبور مدیریت:</label>
+                    <input type="password" id="admin-pass" class="input-field w-full border rounded-xl p-3 text-sm focus:outline-none text-center tracking-widest" placeholder="••••••••">
+                </div>
+                <button onclick="loginAdmin()" class="action-btn w-full py-3 rounded-xl font-medium transition shadow-lg text-sm">ورود به پنل</button>
+                <p id="login-error" class="text-red-500 text-xs text-center hidden font-medium bg-red-500/10 p-2.5 rounded-xl border border-red-500/30">رمز عبور اشتباه است!</p>
+                <button onclick="showSection('tutorials')" class="w-full text-xs opacity-70 hover:opacity-100 transition mt-2">بازگشت به صفحه اصلی</button>
+            </div>
+        </section>
+
+        <!-- داشبورد مدیریت -->
+        <section id="admin-dashboard" class="hidden space-y-6 card-box backdrop-blur-md p-6 md:p-8 rounded-2xl border shadow-2xl">
+            <div class="flex flex-wrap justify-between items-center border-b border-current/10 pb-4 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold flex items-center gap-2">
+                        <i class="fas fa-sliders-h text-yellow-500"></i> داشبورد مدیریت محتوا
+                    </h2>
+                    <p class="text-xs opacity-80">افزودن یا حذف مقالات آموزشی</p>
+                </div>
+                <button onclick="logoutAdmin()" class="bg-red-600 text-white px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2">
+                    <i class="fas fa-sign-out-alt"></i> خروج
+                </button>
+            </div>
+            
+            <div class="card-box p-6 rounded-xl border space-y-4">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-plus-circle text-emerald-500"></i> افزودن آموزش جدید</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" id="new-title" placeholder="عنوان مقاله آموزشی..." class="input-field border rounded-xl p-3 text-sm focus:outline-none">
+                    <input type="text" id="new-category" placeholder="دسته‌بندی (مثلا: پرامپت‌نویسی)..." class="input-field border rounded-xl p-3 text-sm focus:outline-none">
+                </div>
+                <textarea id="new-desc" placeholder="متن کامل توضیحات آموزش..." class="input-field w-full border rounded-xl p-3 text-sm h-32 focus:outline-none"></textarea>
+                <button onclick="addTutorial()" class="action-btn px-6 py-2.5 rounded-xl text-sm font-medium transition shadow-lg flex items-center gap-2">
+                    <i class="fas fa-save"></i> ذخیره و انتشار
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <h3 class="font-bold text-lg">مدیریت مطالب موجود</h3>
+                <div id="admin-tutorials-list" class="space-y-2 max-h-96 overflow-y-auto pr-1"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- فوتر سایت -->
+    <footer class="bg-black/30 backdrop-blur-md border-t border-current/10 py-6 text-center text-xs opacity-70 mt-auto">
+        <div class="container mx-auto space-y-2">
+            <p>طراحی شده با گیت‌هاب پیجز &copy; 2026</p>
+            <div class="flex justify-center gap-4 text-sm">
+                <a href="#" class="hover:opacity-100 transition"><i class="fab fa-github"></i></a>
+                <a href="#" class="hover:opacity-100 transition"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="hover:opacity-100 transition"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- اسکریپت‌ها -->
+    <script>
+        let currentColorTheme = localStorage.getItem('ai_color_theme') || 'yellow';
+        let currentMode = localStorage.getItem('ai_mode') || 'dark';
+
+        const colorThemes = {
+            emerald: {
+                darkGrad: 'from-emerald-900 via-teal-800 to-emerald-950',
+                lightBg: 'bg-gradient-to-br from-emerald-50 via-teal-100 to-emerald-200 text-slate-900',
+                btnClass: 'bg-emerald-600 hover:bg-emerald-500 text-white',
+                particle: 'rgba(52, 211, 153, 0.4)',
+                line: 'rgba(52, 211, 153, 0.2)'
+            },
+            blue: {
+                darkGrad: 'from-slate-900 via-blue-900 to-indigo-950',
+                lightBg: 'bg-gradient-to-br from-sky-50 via-blue-100 to-indigo-200 text-slate-900',
+                btnClass: 'bg-sky-600 hover:bg-sky-500 text-white',
+                particle: 'rgba(56, 189, 248, 0.4)',
+                line: 'rgba(56, 189, 248, 0.2)'
+            },
+            yellow: {
+                darkGrad: 'from-amber-950 via-yellow-900 to-amber-900',
+                lightBg: 'bg-gradient-to-br from-amber-50 via-yellow-100 to-amber-200 text-slate-900',
+                btnClass: 'bg-yellow-500 hover:bg-yellow-400 text-black font-bold',
+                particle: 'rgba(251, 191, 36, 0.5)',
+                line: 'rgba(251, 191, 36, 0.25)'
+            }
+        };
+
+        function applyTheme() {
+            localStorage.setItem('ai_color_theme', currentColorTheme);
+            localStorage.setItem('ai_mode', currentMode);
+
+            const body = document.getElementById('page-body');
+            const header = document.getElementById('site-header');
+            const themeConfig = colorThemes[currentColorTheme];
+
+            // حالت لایت یا دارک
+            if (currentMode === 'light') {
+                body.className = `h-full flex flex-col transition-colors duration-500 ${themeConfig.lightBg}`;
+                header.className = 'bg-white/70 backdrop-blur-md border-b border-black/10 sticky top-0 z-50 shadow-sm transition-colors duration-300';
+            } else {
+                body.className = `h-full flex flex-col transition-colors duration-500 animated-gradient ${themeConfig.darkGrad} text-white`;
+                header.className = 'bg-black/30 backdrop-blur-md border-b border-white/10 sticky top-0 z-50 shadow-lg transition-colors duration-300';
+            }
+
+            // دکمه‌های فعال پالت رنگی
+            ['emerald', 'blue', 'yellow'].forEach(c => {
+                const btn = document.getElementById(`theme-${c}`);
+                if (c === currentColorTheme) {
+                    btn.className = `px-2.5 py-1.5 rounded-lg text-xs font-medium transition shadow ${c === 'yellow' ? 'bg-yellow-500 text-black font-bold' : 'bg-white/20'}`;
+                } else {
+                    btn.className = 'px-2.5 py-1.5 rounded-lg text-xs font-medium transition hover:opacity-100 opacity-70';
+                }
+            });
+
+            // دکمه‌های لایت/دارک
+            document.getElementById('mode-light').className = `px-2.5 py-1.5 rounded-lg text-xs transition ${currentMode === 'light' ? 'bg-black/20 font-bold shadow' : 'opacity-70'}`;
+            document.getElementById('mode-dark').className = `px-2.5 py-1.5 rounded-lg text-xs transition ${currentMode === 'dark' ? 'bg-white/20 font-bold shadow' : 'opacity-70'}`;
+
+            // استایل فیلدها و کارت‌ها بر اساس حالت روشن/تیره
+            const isLight = currentMode === 'light';
+            document.querySelectorAll('.card-box').forEach(el => {
+                el.className = isLight 
+                    ? el.className.replace(/bg-black\/\d+/g, 'bg-white/60 border-black/10 shadow-md') 
+                    : el.className.replace(/bg-white\/\d+/g, 'bg-black/40 border-white/15 shadow-2xl');
+            });
+
+            document.querySelectorAll('.input-field').forEach(el => {
+                el.className = isLight
+                    ? 'input-field w-full bg-white/80 border border-black/20 rounded-xl p-3 text-sm focus:outline-none focus:border-black/50 text-slate-900 placeholder:text-slate-400'
+                    : 'input-field w-full bg-black/50 border border-white/20 rounded-xl p-3 text-sm focus:outline-none focus:border-white/50 text-white placeholder:text-white/40';
+            });
+
+            document.querySelectorAll('.action-btn').forEach(el => {
+                el.className = `action-btn w-full py-2.5 rounded-xl text-sm font-medium transition shadow-md ${themeConfig.btnClass}`;
+            });
+
+            particleColor = themeConfig.particle;
+            lineColor = themeConfig.line;
+        }
+
+        function setColorTheme(color) {
+            currentColorTheme = color;
+            applyTheme();
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            applyTheme();
+        }
+
+        // ذرات هندسی پس‌زمینه
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+        let particleColor = 'rgba(251, 191, 36, 0.5)';
+        let lineColor = 'rgba(251, 191, 36, 0.25)';
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.2;
+                this.vy = (Math.random() - 0.5) * 1.2;
+                this.radius = Math.random() * 2.5 + 1.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = particleColor;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((width * height) / 18000);
+            for (let i = 0; i < count; i++) particles.push(new Particle());
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = lineColor;
+                        ctx.lineWidth = (1 - distance / 130) * 1.2;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // مدیریت محتوا
+        let tutorials = JSON.parse(localStorage.getItem('ai_site_tutorials')) || [
+            { id: 1, title: 'مبانی هوش مصنوعی مولد و یادگیری عمیق', category: 'پایه', desc: 'آشنایی جامع با ساختار شبکه‌های عصبی و مدل‌های زبانی بزرگ (LLMs).' },
+            { id: 2, title: 'پرامپت‌نویسی پیشرفته برای خروجی دقیق', category: 'تخصصی', desc: 'یادگیری تکنیک‌های مهندسی پرامپت جهت دریافت بهترین نتایج.' }
+        ];
+
+        function renderTutorials() {
+            const listEl = document.getElementById('tutorials-list');
+            const adminListEl = document.getElementById('admin-tutorials-list');
+            const countBadge = document.getElementById('tutorial-count-badge');
+            
+            if (listEl) listEl.innerHTML = '';
+            if (adminListEl) adminListEl.innerHTML = '';
+
+            tutorials.forEach((item, index) => {
+                const isLight = currentMode === 'light';
+                const cardClass = isLight ? 'bg-white/70 border-black/10 shadow-md' : 'bg-black/40 border-white/10 shadow-xl';
+
+                if (listEl) {
+                    listEl.innerHTML += `
+                        <div class="card-box backdrop-blur-md p-6 rounded-2xl border transition hover:scale-[1.01] flex flex-col justify-between ${cardClass}">
+                            <div>
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-current/10 border border-current/20 mb-3">${item.category}</span>
+                                <h3 class="font-bold text-xl mb-2">${item.title}</h3>
+                                <p class="opacity-80 text-sm leading-relaxed mb-4">${item.desc}</p>
+                            </div>
+                            <div class="pt-4 border-t border-current/10 flex justify-between items-center text-xs opacity-70">
+                                <span><i class="far fa-clock ml-1"></i> مطالعه: ۴ دقیقه</span>
+                                <button onclick="alert('مقاله کامل در بروزرسانی‌های بعدی.')" class="font-medium hover:underline">مشاهده مقاله <i class="fas fa-arrow-left mr-1"></i></button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (adminListEl) {
+                    adminListEl.innerHTML += `
+                        <div class="card-box flex justify-between items-center p-4 rounded-xl border ${cardClass}">
+                            <div>
+                                <span class="font-bold text-sm block">${item.title}</span>
+                                <span class="text-xs opacity-70">دسته‌بندی: ${item.category}</span>
+                            </div>
+                            <button onclick="deleteTutorial(${index})" class="bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                    `;
+                }
+            });
+
+            if (countBadge) countBadge.innerText = `تعداد مطالب: ${tutorials.length}`;
+            localStorage.setItem('ai_site_tutorials', JSON.stringify(tutorials));
+        }
+
+        function showSection(section) {
+            ['tutorials-section', 'tools-section', 'login-section', 'admin-dashboard'].forEach(s => {
+                document.getElementById(s).classList.add('hidden');
+            });
+            document.getElementById(`${section}-section` || `admin-${section}`).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function checkAdminAccess() {
+            if (sessionStorage.getItem('is_admin_logged') === 'true') showSection('dashboard');
+            else showSection('login');
+        }
+
+        function loginAdmin() {
+            if (document.getElementById('admin-pass').value === 'hiho2026') {
+                sessionStorage.setItem('is_admin_logged', 'true');
+                document.getElementById('login-error').classList.add('hidden');
+                showSection('dashboard');
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            sessionStorage.removeItem('is_admin_logged');
+            showSection('tutorials');
+        }
+
+        function addTutorial() {
+            const title = document.getElementById('new-title').value.trim();
+            const category = document.getElementById('new-category').value.trim() || 'عمومی';
+            const desc = document.getElementById('new-desc').value.trim();
+            if (title && desc) {
+                tutorials.unshift({ id: Date.now(), title, category, desc });
+                document.getElementById('new-title').value = '';
+                document.getElementById('new-category').value = '';
+                document.getElementById('new-desc').value = '';
+                renderTutorials();
+                alert('مقاله با موفقیت افزوده شد.');
+            } else {
+                alert('لطفاً عنوان و توضیحات را پر کنید.');
+            }
+        }
+
+        function deleteTutorial(index) {
+            if (confirm('آیا از حذف این آموزش مطمئن هستید؟')) {
+                tutorials.splice(index, 1);
+                renderTutorials();
+            }
+        }
+
+        function generatePrompt() {
+            const topic = document.getElementById('prompt-topic').value.trim();
+            const resBox = document.getElementById('prompt-result');
+            if (!topic) return alert('موضوع را وارد کنید.');
+            resBox.classList.remove('hidden');
+            resBox.innerText = `Act as an expert in ${topic}. Provide a comprehensive step-by-step guide and practical examples.`;
+        }
+
+        function calculateCost() {
+            const tokens = parseInt(document.getElementById('token-input').value);
+            const resBox = document.getElementById('cost-result');
+            if (isNaN(tokens) || tokens <= 0) return alert('مقدار معتبر وارد کنید.');
+            resBox.classList.remove('hidden');
+            resBox.innerText = `تخمین هزینه پردازش: حدود $${((tokens / 1000) * 0.002).toFixed(4)}`;
+        }
+
+        applyTheme();
+        renderTutorials();
+    </script>
+</body>
+</html>
