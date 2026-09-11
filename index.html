@@ -4,20 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>آکادمی هوش مصنوعی | آموزش جامع AI</title>
+    <!-- لود فونت‌های لاله زار و وزیرمتن -->
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        vazir: ['Vazirmatn', 'sans-serif'],
+                        lalezar: ['Lalezar', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Vazirmatn', sans-serif; }
+        .font-brand { font-family: 'Lalezar', cursive; }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+<body id="pageBody" class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between transition-colors duration-300" data-theme="blue">
 
     <!-- هدر سایت -->
-    <header class="bg-slate-800 border-b border-slate-700 p-4 shadow-md">
+    <header id="siteHeader" class="bg-white border-b border-slate-200 p-4 shadow-sm transition-colors duration-300">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold text-cyan-400"><i class="fa-solid fa-brain ml-2"></i>آموزش هوش مصنوعی</h1>
+            <h1 id="brandTitle" class="text-2xl font-brand tracking-wide text-blue-600"><i class="fa-solid fa-brain ml-2"></i>آموزش هوش مصنوعی</h1>
             <div class="flex items-center gap-2">
-                <button onclick="toggleChat()" class="bg-cyan-600 hover:bg-cyan-500 text-white text-xs px-3 py-2 rounded-lg transition flex items-center gap-1 shadow">
+                <!-- انتخابگر تم رنگی -->
+                <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+                    <button onclick="setTheme('blue')" class="w-6 h-6 rounded-full bg-blue-600 focus:outline-none hover:scale-110 transition" title="آبی"></button>
+                    <button onclick="setTheme('green')" class="w-6 h-6 rounded-full bg-emerald-600 focus:outline-none hover:scale-110 transition" title="سبز"></button>
+                    <button onclick="setTheme('yellow')" class="w-6 h-6 rounded-full bg-amber-500 focus:outline-none hover:scale-110 transition" title="زرد"></button>
+                </div>
+                <button onclick="toggleChat()" id="chatBtn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-2 rounded-xl transition flex items-center gap-1 shadow">
                     <i class="fa-solid fa-comments"></i> چت با هوش مصنوعی
                 </button>
-                <button onclick="toggleAdminPanel()" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-2 rounded-lg transition border border-slate-600">
+                <button onclick="openAdminModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs px-3 py-2 rounded-xl transition border border-slate-300">
                     <i class="fa-solid fa-lock ml-1"></i> پنل مدیریت
                 </button>
             </div>
@@ -28,70 +53,102 @@
     <main class="container mx-auto px-4 py-8 max-w-4xl flex-grow">
         
         <!-- بنر معرفی -->
-        <section class="bg-gradient-to-r from-cyan-900 to-slate-800 p-8 rounded-2xl mb-8 border border-cyan-500/30 shadow-lg text-center">
-            <h2 class="text-3xl font-extrabold text-white mb-4">مسیر یادگیری هوش مصنوعی از صفر تا پیشرفته</h2>
-            <p class="text-slate-300 leading-relaxed mb-6">یادگیری ماشین، شبکه های عصبی، پردازش زبان طبیعی (NLP) و ابزارهای مولد مثل ChatGPT و Midjourney را با زبان ساده بیاموزید.</p>
-            <a href="#courses" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition shadow-md inline-block">شروع یادگیری</a>
+        <section id="heroBanner" class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-8 rounded-2xl mb-8 shadow-lg text-center transition-colors duration-300">
+            <h2 class="text-3xl font-brand mb-4">مسیر یادگیری هوش مصنوعی از صفر تا پیشرفته</h2>
+            <p class="text-blue-100 leading-relaxed mb-6 font-light">یادگیری ماشین، شبکه های عصبی، پردازش زبان طبیعی (NLP) و ابزارهای مولد مثل ChatGPT و Midjourney را با زبان ساده بیاموزید.</p>
+            <a href="#courses" id="heroBtn" class="bg-white text-blue-600 font-bold px-6 py-3 rounded-xl transition shadow-md inline-block hover:bg-blue-50">شروع یادگیری</a>
         </section>
 
-        <!-- سرفصل‌ها -->
-        <section id="courses" class="grid md:grid-cols-3 gap-6 mb-12">
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-cyan-500/50 transition">
-                <div class="text-cyan-400 text-3xl mb-4"><i class="fa-solid fa-code"></i></div>
-                <h3 class="text-lg font-bold mb-2">مقدماتی و پایتون</h3>
-                <p class="text-sm text-slate-400">آشنایی با زبان برنامه‌نویسی پایتون و کتابخانه‌های کلیدی مانند NumPy و Pandas.</p>
-            </div>
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-cyan-500/50 transition">
-                <div class="text-cyan-400 text-3xl mb-4"><i class="fa-solid fa-network-wired"></i></div>
-                <h3 class="text-lg font-bold mb-2">یادگیری ماشین</h3>
-                <p class="text-sm text-slate-400">الگوریتم‌های یادگیری با نظارت و بدون نظارت به همراه پیاده‌سازی عملی.</p>
-            </div>
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-cyan-500/50 transition">
-                <div class="text-cyan-400 text-3xl mb-4"><i class="fa-solid fa-robot"></i></div>
-                <h3 class="text-lg font-bold mb-2">هوش مصنوعی مولد</h3>
-                <p class="text-sm text-slate-400">مهندسی پرامپت، کار با مدل‌های زبانی بزرگ (LLM) و ساخت اپلیکیشن‌های هوشمند.</p>
+        <!-- سرفصل‌ها (قابل افزایش توسط مدیریت) -->
+        <section id="courses" class="mb-12">
+            <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-600" id="sectionIcon"></i> دوره‌های آموزشی</h3>
+            <div id="coursesContainer" class="grid md:grid-cols-3 gap-6">
+                <!-- پیش‌فرض‌ها -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-blue-600 text-3xl mb-4"><i class="fa-solid fa-code"></i></div>
+                    <h4 class="text-lg font-bold mb-2">مقدماتی و پایتون</h4>
+                    <p class="text-sm text-slate-500">آشنایی با زبان برنامه‌نویسی پایتون و کتابخانه‌های کلیدی مانند NumPy و Pandas.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-blue-600 text-3xl mb-4"><i class="fa-solid fa-network-wired"></i></div>
+                    <h4 class="text-lg font-bold mb-2">یادگیری ماشین</h4>
+                    <p class="text-sm text-slate-500">الگوریتم‌های یادگیری با نظارت و بدون نظارت به همراه پیاده‌سازی عملی.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-blue-600 text-3xl mb-4"><i class="fa-solid fa-robot"></i></div>
+                    <h4 class="text-lg font-bold mb-2">هوش مصنوعی مولد</h4>
+                    <p class="text-sm text-slate-500">مهندسی پرامپت، کار با مدل‌های زبانی بزرگ (LLM) و ساخت اپلیکیشن‌های هوشمند.</p>
+                </div>
             </div>
         </section>
 
         <!-- پنجره چت هوش مصنوعی -->
-        <div id="chatModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-            <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl flex flex-col h-[500px] overflow-hidden">
-                <!-- هدر چت -->
-                <div class="bg-slate-900 p-4 border-b border-slate-700 flex justify-between items-center">
-                    <h3 class="font-bold text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-robot"></i> دستیار هوش مصنوعی</h3>
-                    <button onclick="toggleChat()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+        <div id="chatModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-lg shadow-2xl flex flex-col h-[500px] overflow-hidden">
+                <div class="bg-slate-100 p-4 border-b border-slate-200 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-robot text-blue-600"></i> دستیار هوش مصنوعی</h3>
+                    <button onclick="toggleChat()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
-                <!-- پیام‌های چت -->
                 <div id="chatMessages" class="flex-grow p-4 overflow-y-auto space-y-3 text-sm flex flex-col">
-                    <div class="bg-slate-700/50 text-slate-200 p-3 rounded-xl max-w-[80%] self-start">
+                    <div class="bg-slate-100 text-slate-700 p-3 rounded-xl max-w-[80%] self-start">
                         سلام! من دستیار هوش مصنوعی شما هستم. چطور می‌توانم در یادگیری AI به شما کمک کنم؟
                     </div>
                 </div>
-                <!-- فرم ارسال پیام -->
-                <div class="p-3 bg-slate-900 border-t border-slate-700 flex gap-2">
-                    <input type="text" id="userInput" placeholder="سوال خود را بپرسید..." class="flex-grow bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500" onkeypress="if(event.key === 'Enter') sendMessage()">
-                    <button onclick="sendMessage()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-xl transition"><i class="fa-solid fa-paper-plane"></i></button>
+                <div class="p-3 bg-slate-50 border-t border-slate-200 flex gap-2">
+                    <input type="text" id="userInput" placeholder="سوال خود را بپرسید..." class="flex-grow bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-blue-500" onkeypress="if(event.key === 'Enter') sendMessage()">
+                    <button onclick="sendMessage()" id="sendChatBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl transition"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
 
-        <!-- پنل مدیریت -->
-        <div id="adminModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
-                <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
-                    <h3 class="text-lg font-bold text-cyan-400"><i class="fa-solid fa-chart-line ml-2"></i>آمار کاربران و بازدیدها</h3>
-                    <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+        <!-- مدال ورود رمز پنل مدیریت -->
+        <div id="loginModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-200 pb-3">
+                    <h3 class="text-base font-bold text-slate-800"><i class="fa-solid fa-lock ml-2 text-blue-600"></i>ورود به پنل مدیریت</h3>
+                    <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
                 <div class="space-y-4">
-                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
-                        <span class="text-slate-300">کل بازدیدهای سایت:</span>
-                        <span id="visitCount" class="text-2xl font-bold text-cyan-400">0</span>
+                    <div>
+                        <label class="block text-xs text-slate-500 mb-1">رمز عبور:</label>
+                        <input type="password" id="adminPasswordInput" placeholder="رمز عبور را وارد کنید" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 focus:outline-none focus:border-blue-500">
                     </div>
-                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
-                        <span class="text-slate-300">تعداد کاربران یکتا (دستگاه‌ها):</span>
-                        <span id="uniqueUsersCount" class="text-2xl font-bold text-emerald-400">0</span>
+                    <button onclick="checkPassword()" id="loginSubmitBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl transition text-sm shadow">تایید و ورود</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- پنل مدیریت اصلی (پس از ورود موفق) -->
+        <div id="adminModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-xl shadow-2xl relative max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-200 pb-3">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-line text-blue-600"></i>مدیریت سایت و آمار</h3>
+                    <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+                <div class="space-y-6">
+                    <!-- آمار -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
+                            <span class="text-xs text-slate-500">کل بازدیدهای سایت:</span>
+                            <span id="visitCount" class="text-2xl font-bold text-blue-600 mt-2">0</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
+                            <span class="text-xs text-slate-500">کاربران یکتا (دستگاه‌ها):</span>
+                            <span id="uniqueUsersCount" class="text-2xl font-bold text-emerald-600 mt-2">0</span>
+                        </div>
                     </div>
-                    <button onclick="resetStats()" class="w-full bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 font-bold py-2 rounded-xl transition text-sm">صفر کردن آمار</button>
+
+                    <!-- فرم افزودن درس جدید -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                        <h4 class="font-bold text-sm text-slate-700 flex items-center gap-1"><i class="fa-solid fa-plus-circle text-blue-600"></i> افزودن درس یا دوره جدید</h4>
+                        <div>
+                            <input type="text" id="newCourseTitle" placeholder="عنوان درس (مثلاً: یادگیری عمیق پیشرفته)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 focus:outline-none focus:border-blue-500 mb-2">
+                            <textarea id="newCourseDesc" placeholder="توضیحات کوتاه درباره سرفصل..." class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 focus:outline-none focus:border-blue-500 h-20 resize-none"></textarea>
+                        </div>
+                        <button onclick="addNewCourse()" id="addCourseBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl transition text-sm shadow">اضافه کردن به سایت برای همه کاربران</button>
+                    </div>
+
+                    <button onclick="resetStats()" class="w-full bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold py-2 rounded-xl transition text-sm">صفر کردن آمار بازدید</button>
                 </div>
             </div>
         </div>
@@ -99,24 +156,73 @@
     </main>
 
     <!-- فوتر -->
-    <footer class="bg-slate-800 border-t border-slate-700 py-4 text-center text-xs text-slate-400">
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
         <p>طراحی شده برای میزبانی در GitHub Pages | آموزش هوش مصنوعی</p>
     </footer>
 
     <!-- جاوااسکریپت -->
     <script>
-        // ۱. سیستم محاسبه بازدیدها و کاربران یکتا با localStorage
+        // تنظیمات تم‌های رنگی
+        const themes = {
+            blue: {
+                primary: 'text-blue-600',
+                bgHero: 'from-blue-600 to-indigo-700',
+                btnBg: 'bg-blue-600 hover:bg-blue-500',
+                btnText: 'text-blue-600'
+            },
+            green: {
+                primary: 'text-emerald-600',
+                bgHero: 'from-emerald-600 to-teal-700',
+                btnBg: 'bg-emerald-600 hover:bg-emerald-500',
+                btnText: 'text-emerald-600'
+            },
+            yellow: {
+                primary: 'text-amber-500',
+                bgHero: 'from-amber-500 to-orange-600',
+                btnBg: 'bg-amber-500 hover:bg-amber-400',
+                btnText: 'text-amber-500'
+            }
+        };
+
+        function setTheme(themeName) {
+            localStorage.setItem('site_theme', themeName);
+            applyTheme(themeName);
+        }
+
+        function applyTheme(themeName) {
+            const t = themes[themeName] || themes.blue;
+            
+            // برند و عناوین
+            document.getElementById('brandTitle').className = `text-2xl font-brand tracking-wide ${t.primary}`;
+            document.getElementById('sectionIcon').className = `fa-solid fa-book-open ${t.primary}`;
+            
+            // هیرو بنر
+            const hero = document.getElementById('heroBanner');
+            hero.className = `bg-gradient-to-r ${t.bgHero} text-white p-8 rounded-2xl mb-8 shadow-lg text-center transition-colors duration-300`;
+            
+            // دکمه‌های اصلی
+            const chatBtn = document.getElementById('chatBtn');
+            chatBtn.className = `${t.btnBg} text-white text-xs px-3 py-2 rounded-xl transition flex items-center gap-1 shadow`;
+            
+            const heroBtn = document.getElementById('heroBtn');
+            heroBtn.className = `bg-white ${t.btnText} font-bold px-6 py-3 rounded-xl transition shadow-md inline-block hover:bg-slate-100`;
+
+            const sendChatBtn = document.getElementById('sendChatBtn');
+            sendChatBtn.className = `${t.btnBg} text-white font-bold px-4 py-2 rounded-xl transition`;
+
+            const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+            loginSubmitBtn.className = `${t.btnBg} text-white font-bold py-2 rounded-xl transition text-sm shadow`;
+        }
+
+        // سیستم آمار بازدید و کاربران
         function handleVisitorStats() {
-            // تعداد کل بازدیدها
             let visits = localStorage.getItem('site_visits');
             visits = visits ? parseInt(visits) + 1 : 1;
             localStorage.setItem('site_visits', visits);
             document.getElementById('visitCount').innerText = visits;
 
-            // تعداد کاربران یکتا (تشخیص بر اساس ذخیره یک شناسه واحد برای مرورگر کاربر)
             let uniqueUsers = localStorage.getItem('unique_users');
             if (!uniqueUsers) {
-                // اگر این اولین بار است که این مرورگر وارد سایت می‌شود
                 let totalUsers = localStorage.getItem('total_unique_count');
                 totalUsers = totalUsers ? parseInt(totalUsers) + 1 : 1;
                 localStorage.setItem('total_unique_count', totalUsers);
@@ -124,27 +230,112 @@
             }
             let displayUsers = localStorage.getItem('total_unique_count') || 1;
             document.getElementById('uniqueUsersCount').innerText = displayUsers;
+
+            // لود دوره‌های ذخیره شده
+            loadCourses();
         }
 
-        // ۲. مدیریت نمایش پنل‌ها
+        // مدال‌های مدیریت و رمز عبور
+        function openAdminModal() {
+            document.getElementById('loginModal').classList.remove('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('adminPasswordInput').value = '';
+        }
+
+        function checkPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === 'hiho2026') {
+                closeLoginModal();
+                toggleAdminPanel();
+            } else {
+                alert('رمز عبور اشتباه است!');
+            }
+        }
+
         function toggleAdminPanel() {
             document.getElementById('adminModal').classList.toggle('hidden');
         }
 
-        function toggleChat() {
-            document.getElementById('chatModal').classList.toggle('hidden');
-        }
-
         function resetStats() {
-            if(confirm('آیا مطمئن هستید که می‌خواهید تمام آمار را صفر کنید؟')) {
+            if(confirm('آیا مطمئن هستید که می‌خواهید آمار را صفر کنید؟')) {
                 localStorage.setItem('site_visits', 0);
-                localStorage.setItem('total_unique_count', 1); // خودش رو هم یک کاربر در نظر میگیره
+                localStorage.setItem('total_unique_count', 1);
                 document.getElementById('visitCount').innerText = 0;
                 document.getElementById('uniqueUsersCount').innerText = 1;
             }
         }
 
-        // ۳. سیستم چت هوش مصنوعی (شبیه‌ساز هوشمند یا اتصال به API رایگان)
+        // مدیریت دوره‌ها (افزودن و نمایش برای همه)
+        function addNewCourse() {
+            const title = document.getElementById('newCourseTitle').value.trim();
+            const desc = document.getElementById('newCourseDesc').value.trim();
+
+            if (!title || !desc) {
+                alert('لطفاً عنوان و توضیحات درس را وارد کنید.');
+                return;
+            }
+
+            let courses = JSON.parse(localStorage.getItem('custom_courses') || '[]');
+            courses.push({ title, desc });
+            localStorage.setItem('custom_courses', JSON.stringify(courses));
+
+            document.getElementById('newCourseTitle').value = '';
+            document.getElementById('newCourseDesc').value = '';
+            
+            loadCourses();
+            alert('درس جدید با موفقیت اضافه شد و برای تمامی کاربران قابل مشاهده است.');
+            toggleAdminPanel();
+        }
+
+        function loadCourses() {
+            const container = document.getElementById('coursesContainer');
+            
+            // کورس‌های پیش‌فرض ثابت
+            let html = `
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-blue-600 text-3xl mb-4"><i class="fa-solid fa-code"></i></div>
+                    <h4 class="text-lg font-bold mb-2">مقدماتی و پایتون</h4>
+                    <p class="text-sm text-slate-500">آشنایی با زبان برنامه‌نویسی پایتون و کتابخانه‌های کلیدی مانند NumPy و Pandas.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-blue-600 text-3xl mb-4"><i class="fa-solid fa-network-wired"></i></div>
+                    <h4 class="text-lg font-bold mb-2">یادگیری ماشین</h4>
+                    <p class="text-sm text-slate-500">الگوریتم‌های یادگیری با نظارت و بدون نظارت به همراه پیاده‌سازی عملی.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-blue-600 text-3xl mb-4"><i class="fa-solid fa-robot"></i></div>
+                    <h4 class="text-lg font-bold mb-2">هوش مصنوعی مولد</h4>
+                    <p class="text-sm text-slate-500">مهندسی پرامپت، کار با مدل‌های زبانی بزرگ (LLM) و ساخت اپلیکیشن‌های هوشمند.</p>
+                </div>
+            `;
+
+            // کورس‌های اضافه‌شده توسط ادمین
+            let customCourses = JSON.parse(localStorage.getItem('custom_courses') || '[]');
+            customCourses.forEach(c => {
+                html += `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                        <div class="text-blue-600 text-3xl mb-4"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <h4 class="text-lg font-bold mb-2">${escapeHtml(c.title)}</h4>
+                        <p class="text-sm text-slate-500">${escapeHtml(c.desc)}</p>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // سیستم چت هوش مصنوعی
+        function toggleChat() {
+            document.getElementById('chatModal').classList.toggle('hidden');
+        }
+
         function sendMessage() {
             const inputField = document.getElementById('userInput');
             const messageText = inputField.value.trim();
@@ -152,26 +343,23 @@
 
             const chatMessages = document.getElementById('chatMessages');
 
-            // نمایش پیام کاربر
             const userBubble = document.createElement('div');
-            userBubble.className = "bg-cyan-600 text-white p-3 rounded-xl max-w-[80%] self-end";
+            userBubble.className = "bg-blue-600 text-white p-3 rounded-xl max-w-[80%] self-end";
             userBubble.innerText = messageText;
             chatMessages.appendChild(userBubble);
 
             inputField.value = '';
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // پاسخ هوش مصنوعی (محلی یا متصل به منطق هوشمند)
             setTimeout(() => {
                 const aiBubble = document.createElement('div');
-                aiBubble.className = "bg-slate-700/50 text-slate-200 p-3 rounded-xl max-w-[80%] self-start";
+                aiBubble.className = "bg-slate-100 text-slate-700 p-3 rounded-xl max-w-[80%] self-start";
                 aiBubble.innerText = generateAIResponse(messageText);
                 chatMessages.appendChild(aiBubble);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 600);
         }
 
-        // پاسخ‌دهی خودکار هوش مصنوعی بر اساس کلمات کلیدی پرسیده شده
         function generateAIResponse(prompt) {
             prompt = prompt.toLowerCase();
             if (prompt.includes('سلام') || prompt.includes('درود')) {
@@ -180,15 +368,17 @@
                 return 'پایتون زبان اصلی هوش مصنوعی است. کتابخانه‌هایی مثل PyTorch، TensorFlow و Scikit-Learn ابزارهای اصلی این حوزه هستند.';
             } else if (prompt.includes('چات جی پی تی') || prompt.includes('chatgpt') || prompt.includes('llm')) {
                 return 'مدل‌های زبانی بزرگ (LLMs) مثل ChatGPT با معماری ترنسفورمر کار می‌کنند و قادر به درک و تولید متن به زبان‌های مختلف هستند.';
-            } else if (prompt.includes('یادگیری ماشین') || prompt.includes('machine learning')) {
-                return 'یادگیری ماشین شاخه‌ای از هوش مصنوعی است که به کامپیوترها اجازه می‌دهد بدون برنامه‌نویسی صریح، از داده‌ها یاد بگیرند.';
             } else {
-                return 'سوال جالبی بود! در حال حاضر برای پاسخ به این سوال دقیق‌تر، پیشنهاد می‌کنم سرفصل‌های آموزشی سایت را مطالعه کنید یا سوال خود را پیرامون یادگیری ماشین و پایتون مطرح کنید.';
+                return 'سوال جالبی بود! در حال حاضر برای پاسخ به این سوال دقیق‌تر، پیشنهاد می‌کنم سرفصل‌های آموزشی سایت را مطالعه کنید یا سوال خود را پیرامون یادگیری ماشین مطرح کنید.';
             }
         }
 
-        // اجرا هنگام لود صفحه
-        window.onload = handleVisitorStats;
+        // اجرا در هنگام لود صفحه
+        window.onload = function() {
+            handleVisitorStats();
+            const savedTheme = localStorage.getItem('site_theme') || 'blue';
+            applyTheme(savedTheme);
+        };
     </script>
 </body>
 </html>
