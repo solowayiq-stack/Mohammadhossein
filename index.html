@@ -1,606 +1,194 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" class="h-full">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آکادمی هوش مصنوعی | مرجع جامع مقالات و آموزش‌ها</title>
-    <!-- Tailwind CSS -->
+    <title>آکادمی هوش مصنوعی | آموزش جامع AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Vazirmatn & Lalezar -->
-    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Vazirmatn', 'sans-serif'],
-                        title: ['Lalezar', 'cursive'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Vazirmatn', sans-serif; }
-        h1, h2, h3, .font-title { font-family: 'Lalezar', cursive; letter-spacing: 0.5px; }
-        .animated-gradient { background-size: 200% 200%; animation: gradientShift 12s ease infinite; }
-        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-    </style>
 </head>
-<body id="page-body" class="h-full flex flex-col transition-colors duration-500 animated-gradient from-amber-950 via-yellow-900 to-amber-900 text-white">
-
-    <canvas id="canvas-bg"></canvas>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between">
 
     <!-- هدر سایت -->
-    <header id="site-header" class="bg-black/30 backdrop-blur-md border-b border-white/10 sticky top-0 z-50 shadow-lg transition-colors duration-300">
-        <div class="container mx-auto flex flex-wrap justify-between items-center p-4">
-            <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" onclick="showSection('home')">
-                <div id="header-icon-box" class="bg-white/10 p-2.5 rounded-xl border border-white/20 shadow-inner">
-                    <i class="fas fa-brain text-2xl text-yellow-400" id="header-icon"></i>
-                </div>
-                <div>
-                    <h1 id="header-title" class="text-2xl font-bold tracking-wide m-0">مرجع تخصصی هوش مصنوعی</h1>
-                    <p id="header-subtitle" class="text-xs opacity-75 font-light">مقالات تخصصی، آموزش‌های گام‌به‌گام و ابزارهای هوش مصنوعی</p>
-                </div>
-            </div>
-
-            <!-- ابزارها و تنظیمات ظاهر -->
-            <div class="flex items-center gap-2 mt-3 md:mt-0 flex-wrap">
-                <!-- پالت رنگ -->
-                <div class="flex bg-black/20 p-1 rounded-xl border border-white/10">
-                    <button onclick="setColorTheme('yellow')" title="زرد" class="px-2.5 py-1.5 rounded-lg text-xs transition bg-yellow-500 text-black font-bold shadow" id="theme-yellow">زرد</button>
-                    <button onclick="setColorTheme('emerald')" title="سبز" class="px-2.5 py-1.5 rounded-lg text-xs transition opacity-70 hover:opacity-100" id="theme-emerald">سبز</button>
-                    <button onclick="setColorTheme('blue')" title="آبی" class="px-2.5 py-1.5 rounded-lg text-xs transition opacity-70 hover:opacity-100" id="theme-blue">آبی</button>
-                </div>
-
-                <!-- حالت لایت / دارک -->
-                <div class="flex bg-black/20 p-1 rounded-xl border border-white/10">
-                    <button onclick="setMode('light')" title="روشن" class="px-2.5 py-1.5 rounded-lg text-xs transition opacity-70" id="mode-light"><i class="fas fa-sun"></i></button>
-                    <button onclick="setMode('dark')" title="تیره" class="px-2.5 py-1.5 rounded-lg text-xs transition font-bold bg-white/20 shadow" id="mode-dark"><i class="fas fa-moon"></i></button>
-                </div>
-
-                <button onclick="showSection('home')" class="nav-btn px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/15 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5">
-                    <i class="fas fa-home"></i> صفحه اصلی
+    <header class="bg-slate-800 border-b border-slate-700 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-cyan-400"><i class="fa-solid fa-brain ml-2"></i>آموزش هوش مصنوعی</h1>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleChat()" class="bg-cyan-600 hover:bg-cyan-500 text-white text-xs px-3 py-2 rounded-lg transition flex items-center gap-1 shadow">
+                    <i class="fa-solid fa-comments"></i> چت با هوش مصنوعی
                 </button>
-                <button onclick="showSection('tools')" class="nav-btn px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/15 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5">
-                    <i class="fas fa-toolbox"></i> ابزارها
-                </button>
-                <button onclick="checkAdminAccess()" class="nav-btn px-3 py-2 bg-white/20 hover:bg-white/30 border border-white/20 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5 font-medium">
-                    <i class="fas fa-lock"></i> پنل مدیریت
+                <button onclick="toggleAdminPanel()" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-2 rounded-lg transition border border-slate-600">
+                    <i class="fa-solid fa-lock ml-1"></i> پنل مدیریت
                 </button>
             </div>
         </div>
     </header>
 
     <!-- محتوای اصلی -->
-    <main class="container mx-auto p-4 flex-grow my-6 max-w-6xl">
+    <main class="container mx-auto px-4 py-8 max-w-4xl flex-grow">
         
-        <!-- ۱. صفحه اصلی و لیست مقالات آموزش هوش مصنوعی -->
-        <section id="home-section" class="space-y-6">
-            <div class="flex justify-between items-end border-b border-current/10 pb-4">
-                <div>
-                    <h2 class="text-3xl font-bold mb-1">مقالات و آموزش‌های جامع هوش مصنوعی</h2>
-                    <p class="section-desc text-sm opacity-80">جدیدترین و کاربردی‌ترین مقالات علمی و آموزشی در حوزه AI، یادگیری ماشین و ابزارهای مولد</p>
-                </div>
-                <div class="hidden md:block">
-                    <span class="text-xs bg-current/10 border border-current/20 px-3 py-1.5 rounded-full" id="article-count-badge">تعداد مقالات: 0</span>
-                </div>
-            </div>
+        <!-- بنر معرفی -->
+        <section class="bg-gradient-to-r from-cyan-900 to-slate-800 p-8 rounded-2xl mb-8 border border-cyan-500/30 shadow-lg text-center">
+            <h2 class="text-3xl font-extrabold text-white mb-4">مسیر یادگیری هوش مصنوعی از صفر تا پیشرفته</h2>
+            <p class="text-slate-300 leading-relaxed mb-6">یادگیری ماشین، شبکه های عصبی، پردازش زبان طبیعی (NLP) و ابزارهای مولد مثل ChatGPT و Midjourney را با زبان ساده بیاموزید.</p>
+            <a href="#courses" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition shadow-md inline-block">شروع یادگیری</a>
+        </section>
 
-            <!-- جستجوی مقالات -->
-            <div class="relative">
-                <input type="text" id="search-input" oninput="renderArticles()" placeholder="جستجو در مقالات و آموزش‌ها..." class="input-field w-full border rounded-xl p-3 pr-10 text-sm focus:outline-none">
-                <i class="fas fa-search absolute top-3.5 right-3.5 opacity-50"></i>
+        <!-- سرفصل‌ها -->
+        <section id="courses" class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-cyan-500/50 transition">
+                <div class="text-cyan-400 text-3xl mb-4"><i class="fa-solid fa-code"></i></div>
+                <h3 class="text-lg font-bold mb-2">مقدماتی و پایتون</h3>
+                <p class="text-sm text-slate-400">آشنایی با زبان برنامه‌نویسی پایتون و کتابخانه‌های کلیدی مانند NumPy و Pandas.</p>
             </div>
-
-            <div id="articles-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- مقالات به صورت پویا اینجا بارگذاری می‌شوند -->
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-cyan-500/50 transition">
+                <div class="text-cyan-400 text-3xl mb-4"><i class="fa-solid fa-network-wired"></i></div>
+                <h3 class="text-lg font-bold mb-2">یادگیری ماشین</h3>
+                <p class="text-sm text-slate-400">الگوریتم‌های یادگیری با نظارت و بدون نظارت به همراه پیاده‌سازی عملی.</p>
+            </div>
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-cyan-500/50 transition">
+                <div class="text-cyan-400 text-3xl mb-4"><i class="fa-solid fa-robot"></i></div>
+                <h3 class="text-lg font-bold mb-2">هوش مصنوعی مولد</h3>
+                <p class="text-sm text-slate-400">مهندسی پرامپت، کار با مدل‌های زبانی بزرگ (LLM) و ساخت اپلیکیشن‌های هوشمند.</p>
             </div>
         </section>
 
-        <!-- ۲. صفحه خواندن کامل مقاله -->
-        <section id="article-view-section" class="hidden space-y-6 max-w-4xl mx-auto card-box backdrop-blur-md p-6 md:p-10 rounded-2xl border shadow-xl">
-            <button onclick="showSection('home')" class="text-xs opacity-80 hover:opacity-100 flex items-center gap-2 mb-4">
-                <i class="fas fa-arrow-right"></i> بازگشت به لیست مقالات
-            </button>
-            <div id="article-full-content" class="space-y-6 leading-relaxed">
-                <!-- محتوای کامل مقاله -->
-            </div>
-        </section>
-
-        <!-- ۳. بخش ابزارهای کاربردی هوش مصنوعی -->
-        <section id="tools-section" class="hidden space-y-6">
-            <div class="border-b border-current/10 pb-4">
-                <h2 class="text-3xl font-bold mb-1">ابزارهای هوش مصنوعی</h2>
-                <p class="section-desc text-sm opacity-80">ابزارهای آنلاین برای تولید پرامپت و تست هوش مصنوعی</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="card-box backdrop-blur-md p-6 rounded-2xl border shadow-xl space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="p-3 bg-yellow-500/20 text-yellow-500 rounded-xl"><i class="fas fa-magic text-xl"></i></div>
-                        <h3 class="text-xl font-bold">سازنده پرامپت حرفه‌ای</h3>
-                    </div>
-                    <p class="text-sm opacity-80">موضوع مورد نظر خود را بنویسید تا ساختار پرامپت استاندارد تولید شود.</p>
-                    <input type="text" id="prompt-topic" placeholder="مثلا: برنامه نویسی پایتون..." class="input-field w-full border rounded-xl p-3 text-sm focus:outline-none">
-                    <button onclick="generatePrompt()" class="action-btn w-full py-2.5 rounded-xl text-sm font-medium transition shadow-md">تولید پرامپت</button>
-                    <div id="prompt-result" class="hidden p-3 bg-black/20 border border-current/20 rounded-xl text-xs font-mono"></div>
+        <!-- پنجره چت هوش مصنوعی -->
+        <div id="chatModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl flex flex-col h-[500px] overflow-hidden">
+                <!-- هدر چت -->
+                <div class="bg-slate-900 p-4 border-b border-slate-700 flex justify-between items-center">
+                    <h3 class="font-bold text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-robot"></i> دستیار هوش مصنوعی</h3>
+                    <button onclick="toggleChat()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
-
-                <div class="card-box backdrop-blur-md p-6 rounded-2xl border shadow-xl space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="p-3 bg-yellow-500/20 text-yellow-500 rounded-xl"><i class="fas fa-calculator text-xl"></i></div>
-                        <h3 class="text-xl font-bold">محاسبه‌گر توکن و هزینه API</h3>
-                    </div>
-                    <p class="text-sm opacity-80">تعداد کلمات متن خود را وارد کنید تا حجم تقربی و هزینه پردازش مشخص شود.</p>
-                    <input type="number" id="token-input" placeholder="تعداد کلمات..." class="input-field w-full border rounded-xl p-3 text-sm focus:outline-none">
-                    <button onclick="calculateCost()" class="action-btn w-full py-2.5 rounded-xl text-sm font-medium transition shadow-md">محاسبه هزینه</button>
-                    <div id="cost-result" class="hidden p-3 bg-black/20 border border-current/20 rounded-xl text-xs font-mono"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ۴. بخش ورود مدیریت -->
-        <section id="login-section" class="hidden max-w-md mx-auto card-box backdrop-blur-md p-8 rounded-2xl border shadow-2xl mt-10">
-            <div class="text-center mb-6">
-                <div class="inline-block p-4 bg-current/10 rounded-2xl border border-current/20 mb-3">
-                    <i class="fas fa-shield-alt text-3xl text-yellow-500"></i>
-                </div>
-                <h2 class="text-2xl font-bold">ورود به پنل مدیریت سایت</h2>
-                <p class="text-xs opacity-80 mt-1">رمز ورود: <code class="bg-black/20 px-1.5 py-0.5 rounded font-mono">hiho2026</code></p>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-medium mb-2 opacity-90">رمز عبور مدیریت:</label>
-                    <input type="password" id="admin-pass" class="input-field w-full border rounded-xl p-3 text-sm focus:outline-none text-center tracking-widest" placeholder="••••••••">
-                </div>
-                <button onclick="loginAdmin()" class="action-btn w-full py-3 rounded-xl font-medium transition shadow-lg text-sm">ورود به داشبورد</button>
-                <p id="login-error" class="text-red-500 text-xs text-center hidden font-medium bg-red-500/10 p-2.5 rounded-xl border border-red-500/30">رمز عبور اشتباه است!</p>
-                <button onclick="showSection('home')" class="w-full text-xs opacity-70 hover:opacity-100 transition mt-2">بازگشت به سایت</button>
-            </div>
-        </section>
-
-        <!-- ۵. داشبورد حرفه‌ای مدیریت محتوا -->
-        <section id="admin-dashboard" class="hidden space-y-6 card-box backdrop-blur-md p-6 md:p-8 rounded-2xl border shadow-2xl">
-            <div class="flex flex-wrap justify-between items-center border-b border-current/10 pb-4 gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold flex items-center gap-2">
-                        <i class="fas fa-cogs text-yellow-500"></i> مدیریت پیشرفته مقالات و محتوا
-                    </h2>
-                    <p class="text-xs opacity-80">در این بخش می‌توانید مقالات آموزشی جدید منتشر کنید، ویرایش کنید یا مقالات قبلی را حذف نمایید.</p>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="resetDefaultArticles()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-xl text-xs transition shadow flex items-center gap-1">
-                        <i class="fas fa-sync-alt"></i> بازنشانی مقالات پیش‌فرض
-                    </button>
-                    <button onclick="logoutAdmin()" class="bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded-xl text-xs transition shadow flex items-center gap-1">
-                        <i class="fas fa-sign-out-alt"></i> خروج
-                    </button>
-                </div>
-            </div>
-            
-            <!-- فرم افزودن / ویرایش مقاله -->
-            <div class="card-box p-6 rounded-xl border space-y-4 bg-current/5">
-                <h3 id="form-heading" class="font-bold text-lg flex items-center gap-2 text-yellow-500"><i class="fas fa-plus-circle"></i> انتشار مقاله یا آموزش جدید</h3>
-                <input type="hidden" id="edit-index" value="-1">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium mb-1 opacity-80">عنوان مقاله:</label>
-                        <input type="text" id="new-title" placeholder="مثلا: آشنایی با مدل‌های زبان بزرگ (LLM)..." class="input-field border rounded-xl p-3 text-sm focus:outline-none w-full">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-1 opacity-80">دسته‌بندی:</label>
-                        <input type="text" id="new-category" placeholder="مثلا: یادگیری ماشین، پرامپت‌نویسی، ابزارها..." class="input-field border rounded-xl p-3 text-sm focus:outline-none w-full">
+                <!-- پیام‌های چت -->
+                <div id="chatMessages" class="flex-grow p-4 overflow-y-auto space-y-3 text-sm flex flex-col">
+                    <div class="bg-slate-700/50 text-slate-200 p-3 rounded-xl max-w-[80%] self-start">
+                        سلام! من دستیار هوش مصنوعی شما هستم. چطور می‌توانم در یادگیری AI به شما کمک کنم؟
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-medium mb-1 opacity-80">چکیده کوتاه (برای نمایش در کارت صفحه اصلی):</label>
-                    <input type="text" id="new-desc" placeholder="خلاصه‌ای از مقاله در یک الی دو خط..." class="input-field border rounded-xl p-3 text-sm focus:outline-none w-full">
+                <!-- فرم ارسال پیام -->
+                <div class="p-3 bg-slate-900 border-t border-slate-700 flex gap-2">
+                    <input type="text" id="userInput" placeholder="سوال خود را بپرسید..." class="flex-grow bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500" onkeypress="if(event.key === 'Enter') sendMessage()">
+                    <button onclick="sendMessage()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-xl transition"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
-                <div>
-                    <label class="block text-xs font-medium mb-1 opacity-80">متن کامل مقاله و آموزش (پشتیبانی از پاراگراف‌بندی):</label>
-                    <textarea id="new-content" placeholder="متن کامل آموزش هوش مصنوعی را اینجا بنویسید..." class="input-field w-full border rounded-xl p-3 text-sm h-40 focus:outline-none"></textarea>
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="saveArticle()" id="save-btn" class="action-btn px-6 py-2.5 rounded-xl text-sm font-medium transition shadow-lg flex items-center gap-2">
-                        <i class="fas fa-save"></i> ذخیره و انتشار در سایت
-                    </button>
-                    <button onclick="cancelEdit()" id="cancel-btn" class="hidden bg-gray-600 text-white px-4 py-2.5 rounded-xl text-sm transition">لغو ویرایش</button>
-                </div>
-            </div>
-
-            <!-- لیست مدیریت مقالات موجود -->
-            <div class="space-y-3">
-                <h3 class="font-bold text-lg" id="admin-list-title">لیست مقالات منتشر شده</h3>
-                <div id="admin-articles-list" class="space-y-2 max-h-[500px] overflow-y-auto pr-1"></div>
-            </div>
-        </section>
-    </main>
-
-    <!-- فوتر سایت -->
-    <footer class="bg-black/30 backdrop-blur-md border-t border-current/10 py-6 text-center text-xs opacity-75 mt-auto">
-        <div class="container mx-auto space-y-2">
-            <p>مرجع آموزش تخصصی هوش مصنوعی &copy; 2026 | مدیریت با رمز hiho2026</p>
-            <div class="flex justify-center gap-4 text-sm">
-                <a href="#" class="hover:opacity-100 transition"><i class="fab fa-github"></i></a>
-                <a href="#" class="hover:opacity-100 transition"><i class="fab fa-telegram"></i></a>
-                <a href="#" class="hover:opacity-100 transition"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
+
+        <!-- پنل مدیریت -->
+        <div id="adminModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
+                    <h3 class="text-lg font-bold text-cyan-400"><i class="fa-solid fa-chart-line ml-2"></i>آمار کاربران و بازدیدها</h3>
+                    <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
+                        <span class="text-slate-300">کل بازدیدهای سایت:</span>
+                        <span id="visitCount" class="text-2xl font-bold text-cyan-400">0</span>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
+                        <span class="text-slate-300">تعداد کاربران یکتا (دستگاه‌ها):</span>
+                        <span id="uniqueUsersCount" class="text-2xl font-bold text-emerald-400">0</span>
+                    </div>
+                    <button onclick="resetStats()" class="w-full bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 font-bold py-2 rounded-xl transition text-sm">صفر کردن آمار</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- فوتر -->
+    <footer class="bg-slate-800 border-t border-slate-700 py-4 text-center text-xs text-slate-400">
+        <p>طراحی شده برای میزبانی در GitHub Pages | آموزش هوش مصنوعی</p>
     </footer>
 
-    <!-- اسکریپت‌ها و منطق کامل سایت و پنل مدیریت -->
+    <!-- جاوااسکریپت -->
     <script>
-        let currentColorTheme = localStorage.getItem('ai_color_theme') || 'yellow';
-        let currentMode = localStorage.getItem('ai_mode') || 'dark';
+        // ۱. سیستم محاسبه بازدیدها و کاربران یکتا با localStorage
+        function handleVisitorStats() {
+            // تعداد کل بازدیدها
+            let visits = localStorage.getItem('site_visits');
+            visits = visits ? parseInt(visits) + 1 : 1;
+            localStorage.setItem('site_visits', visits);
+            document.getElementById('visitCount').innerText = visits;
 
-        const colorThemes = {
-            yellow: {
-                darkGrad: 'from-amber-950 via-yellow-900 to-amber-900',
-                lightBg: 'bg-gradient-to-br from-amber-50 via-yellow-100 to-amber-200 text-slate-900',
-                btnClass: 'bg-yellow-500 hover:bg-yellow-400 text-black font-bold',
-                particle: 'rgba(251, 191, 36, 0.5)',
-                line: 'rgba(251, 191, 36, 0.25)'
-            },
-            emerald: {
-                darkGrad: 'from-emerald-950 via-teal-900 to-emerald-900',
-                lightBg: 'bg-gradient-to-br from-emerald-50 via-teal-100 to-emerald-200 text-slate-900',
-                btnClass: 'bg-emerald-600 hover:bg-emerald-500 text-white font-medium',
-                particle: 'rgba(52, 211, 153, 0.4)',
-                line: 'rgba(52, 211, 153, 0.2)'
-            },
-            blue: {
-                darkGrad: 'from-slate-950 via-blue-900 to-indigo-950',
-                lightBg: 'bg-gradient-to-br from-sky-50 via-blue-100 to-indigo-200 text-slate-900',
-                btnClass: 'bg-sky-600 hover:bg-sky-500 text-white font-medium',
-                particle: 'rgba(56, 189, 248, 0.4)',
-                line: 'rgba(56, 189, 248, 0.2)'
+            // تعداد کاربران یکتا (تشخیص بر اساس ذخیره یک شناسه واحد برای مرورگر کاربر)
+            let uniqueUsers = localStorage.getItem('unique_users');
+            if (!uniqueUsers) {
+                // اگر این اولین بار است که این مرورگر وارد سایت می‌شود
+                let totalUsers = localStorage.getItem('total_unique_count');
+                totalUsers = totalUsers ? parseInt(totalUsers) + 1 : 1;
+                localStorage.setItem('total_unique_count', totalUsers);
+                localStorage.setItem('unique_users', 'registered');
             }
-        };
+            let displayUsers = localStorage.getItem('total_unique_count') || 1;
+            document.getElementById('uniqueUsersCount').innerText = displayUsers;
+        }
 
-        function applyTheme() {
-            localStorage.setItem('ai_color_theme', currentColorTheme);
-            localStorage.setItem('ai_mode', currentMode);
+        // ۲. مدیریت نمایش پنل‌ها
+        function toggleAdminPanel() {
+            document.getElementById('adminModal').classList.toggle('hidden');
+        }
 
-            const body = document.getElementById('page-body');
-            const header = document.getElementById('site-header');
-            const themeConfig = colorThemes[currentColorTheme];
+        function toggleChat() {
+            document.getElementById('chatModal').classList.toggle('hidden');
+        }
 
-            if (currentMode === 'light') {
-                body.className = `h-full flex flex-col transition-colors duration-500 ${themeConfig.lightBg}`;
-                header.className = 'bg-white/70 backdrop-blur-md border-b border-black/10 sticky top-0 z-50 shadow-sm transition-colors duration-300';
+        function resetStats() {
+            if(confirm('آیا مطمئن هستید که می‌خواهید تمام آمار را صفر کنید؟')) {
+                localStorage.setItem('site_visits', 0);
+                localStorage.setItem('total_unique_count', 1); // خودش رو هم یک کاربر در نظر میگیره
+                document.getElementById('visitCount').innerText = 0;
+                document.getElementById('uniqueUsersCount').innerText = 1;
+            }
+        }
+
+        // ۳. سیستم چت هوش مصنوعی (شبیه‌ساز هوشمند یا اتصال به API رایگان)
+        function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const messageText = inputField.value.trim();
+            if (!messageText) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+
+            // نمایش پیام کاربر
+            const userBubble = document.createElement('div');
+            userBubble.className = "bg-cyan-600 text-white p-3 rounded-xl max-w-[80%] self-end";
+            userBubble.innerText = messageText;
+            chatMessages.appendChild(userBubble);
+
+            inputField.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // پاسخ هوش مصنوعی (محلی یا متصل به منطق هوشمند)
+            setTimeout(() => {
+                const aiBubble = document.createElement('div');
+                aiBubble.className = "bg-slate-700/50 text-slate-200 p-3 rounded-xl max-w-[80%] self-start";
+                aiBubble.innerText = generateAIResponse(messageText);
+                chatMessages.appendChild(aiBubble);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 600);
+        }
+
+        // پاسخ‌دهی خودکار هوش مصنوعی بر اساس کلمات کلیدی پرسیده شده
+        function generateAIResponse(prompt) {
+            prompt = prompt.toLowerCase();
+            if (prompt.includes('سلام') || prompt.includes('درود')) {
+                return 'سلام! خوشحالم که اینجا هستید. چه کمکی در زمینه هوش مصنوعی از دست من برمی‌آید؟';
+            } else if (prompt.includes('پایتون') || prompt.includes('python')) {
+                return 'پایتون زبان اصلی هوش مصنوعی است. کتابخانه‌هایی مثل PyTorch، TensorFlow و Scikit-Learn ابزارهای اصلی این حوزه هستند.';
+            } else if (prompt.includes('چات جی پی تی') || prompt.includes('chatgpt') || prompt.includes('llm')) {
+                return 'مدل‌های زبانی بزرگ (LLMs) مثل ChatGPT با معماری ترنسفورمر کار می‌کنند و قادر به درک و تولید متن به زبان‌های مختلف هستند.';
+            } else if (prompt.includes('یادگیری ماشین') || prompt.includes('machine learning')) {
+                return 'یادگیری ماشین شاخه‌ای از هوش مصنوعی است که به کامپیوترها اجازه می‌دهد بدون برنامه‌نویسی صریح، از داده‌ها یاد بگیرند.';
             } else {
-                body.className = `h-full flex flex-col transition-colors duration-500 animated-gradient ${themeConfig.darkGrad} text-white`;
-                header.className = 'bg-black/30 backdrop-blur-md border-b border-white/10 sticky top-0 z-50 shadow-lg transition-colors duration-300';
-            }
-
-            ['yellow', 'emerald', 'blue'].forEach(c => {
-                const btn = document.getElementById(`theme-${c}`);
-                if (c === currentColorTheme) {
-                    btn.className = `px-2.5 py-1.5 rounded-lg text-xs transition shadow ${c === 'yellow' ? 'bg-yellow-500 text-black font-bold' : 'bg-white/20 font-medium'}`;
-                } else {
-                    btn.className = 'px-2.5 py-1.5 rounded-lg text-xs transition opacity-70 hover:opacity-100';
-                }
-            });
-
-            document.getElementById('mode-light').className = `px-2.5 py-1.5 rounded-lg text-xs transition ${currentMode === 'light' ? 'bg-black/20 font-bold shadow' : 'opacity-70'}`;
-            document.getElementById('mode-dark').className = `px-2.5 py-1.5 rounded-lg text-xs transition ${currentMode === 'dark' ? 'bg-white/20 font-bold shadow' : 'opacity-70'}`;
-
-            const isLight = currentMode === 'light';
-            document.querySelectorAll('.card-box').forEach(el => {
-                el.className = isLight 
-                    ? el.className.replace(/bg-black\/\d+/g, 'bg-white/70 border-black/10 shadow-md') 
-                    : el.className.replace(/bg-white\/\d+/g, 'bg-black/40 border-white/15 shadow-2xl');
-            });
-
-            document.querySelectorAll('.input-field').forEach(el => {
-                el.className = isLight
-                    ? 'input-field w-full bg-white/90 border border-black/20 rounded-xl p-3 text-sm focus:outline-none focus:border-black/50 text-slate-900 placeholder:text-slate-400'
-                    : 'input-field w-full bg-black/50 border border-white/20 rounded-xl p-3 text-sm focus:outline-none focus:border-white/50 text-white placeholder:text-white/40';
-            });
-
-            document.querySelectorAll('.action-btn').forEach(el => {
-                el.className = `action-btn w-full py-2.5 rounded-xl text-sm font-medium transition shadow-md ${themeConfig.btnClass}`;
-            });
-
-            particleColor = themeConfig.particle;
-            lineColor = themeConfig.line;
-        }
-
-        function setColorTheme(color) { currentColorTheme = color; applyTheme(); }
-        function setMode(mode) { currentMode = mode; applyTheme(); }
-
-        // ذرات هندسی پس‌زمینه با خطوط متصل شونده
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        let width, height, particles = [];
-        let particleColor = 'rgba(251, 191, 36, 0.5)';
-        let lineColor = 'rgba(251, 191, 36, 0.25)';
-
-        function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 1.2;
-                this.vy = (Math.random() - 0.5) * 1.2;
-                this.radius = Math.random() * 2.5 + 1.5;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-            draw() {
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = particleColor; ctx.fill();
+                return 'سوال جالبی بود! در حال حاضر برای پاسخ به این سوال دقیق‌تر، پیشنهاد می‌کنم سرفصل‌های آموزشی سایت را مطالعه کنید یا سوال خود را پیرامون یادگیری ماشین و پایتون مطرح کنید.';
             }
         }
 
-        function initParticles() {
-            particles = [];
-            const count = Math.floor((width * height) / 18000);
-            for (let i = 0; i < count; i++) particles.push(new Particle());
-        }
-        initParticles();
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, width, height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update(); particles[i].draw();
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 130) {
-                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = lineColor; ctx.lineWidth = (1 - distance / 130) * 1.2; ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        // مقالات آموزشی هوش مصنوعی
-        const defaultArticles = [
-            {
-                id: 1,
-                title: 'مبانی هوش مصنوعی مولد و نحوه کارکرد مدل‌های زبانی بزرگ (LLM)',
-                category: 'پایه و مفاهیم',
-                desc: 'در این آموزش جامع بررسی می‌کنیم که مدل‌های هوش مصنوعی چطور زبان انسان را درک کرده و متن تولید می‌کنند.',
-                content: 'هوش مصنوعی مولد (Generative AI) یکی از هیجان‌انگیزترین شاخه‌های علوم کامپیوتر است. مدل‌های زبانی بزرگ مانند GPT با استفاده از معماری ترنسفورمر (Transformer) آموزش دیده‌اند. این مدل‌ها کلمات را به صورت بردارهای عددی (Embeddings) تحلیل کرده و احتمال ظاهر شدن کلمه بعدی را محاسبه می‌کنند. در این مقاله به بررسی تاریخچه، نحوه آموزش با داده‌های عظیم و کاربردهای آن در صنایع مختلف می‌پردازیم.'
-            },
-            {
-                id: 2,
-                title: 'مهندسی پرامپت پیشرفته: چگونه بهترین خروجی را از ChatGPT بگیریم؟',
-                category: 'پرامپت‌نویسی',
-                desc: 'با تکنیک‌های حرفه‌ای پرامپت‌نویسی نظیر Chain-of-Thought و Few-shot آشنا شوید تا نتایج دقیق‌تری دریافت کنید.',
-                content: 'نحوه پرسیدن سوال از هوش مصنوعی اهمیت بسیار زیادی دارد. پرامپت‌نویسی ضعیف پاسخ‌های کلیشه‌ای به همراه دارد. برای داشتن خروجی تخصصی باید نقش (Role)، زمینه (Context)، دستورالعمل دقیق (Instructions) و فرمت خروجی (Output Format) را در درخواست خود مشخص کنید. تکنیک زنجیره تفکر (Chain of Thought) مدل را وادار می‌کند تا مسئله را گام‌به‌گام تحلیل کرده و خطای منطقی به صفر برسد.'
-            },
-            {
-                id: 3,
-                title: 'کاربرد هوش مصنوعی در توسعه وب و برنامه‌نویسی مدرن',
-                category: 'توسعه و برنامه‌نویسی',
-                desc: 'چگونه دستیارهای هوش مصنوعی سرعت کدنویسی، رفع باگ و طراحی رابط کاربری را چند برابر می‌کنند.',
-                content: 'امروزه برنامه‌نویسان حرفه‌ای از دستیارهای هوش مصنوعی به عنوان همکار خود استفاده می‌کنند. این ابزارها قادرند کدهای پیچیده را بهینه‌سازی کنند، تست‌های واحد (Unit Tests) بنویسند و خطاهای منطقی را عیب‌یابی کنند. در این مقاله بررسی می‌کنیم که چطور با استفاده صحیح از AI می‌توانیم پروژه‌های وب را با سرعت و کیفیت بسیار بالاتری توسعه دهیم.'
-            }
-        ];
-
-        let articles = JSON.parse(localStorage.getItem('ai_site_articles')) || defaultArticles;
-
-        function renderArticles() {
-            const listEl = document.getElementById('articles-list');
-            const adminListEl = document.getElementById('admin-articles-list');
-            const countBadge = document.getElementById('article-count-badge');
-            const adminTitle = document.getElementById('admin-list-title');
-            const searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.toLowerCase() : '';
-            
-            if (listEl) listEl.innerHTML = '';
-            if (adminListEl) adminListEl.innerHTML = '';
-
-            const filteredArticles = articles.filter(item => 
-                item.title.toLowerCase().includes(searchQuery) || item.desc.toLowerCase().includes(searchQuery) || item.category.toLowerCase().includes(searchQuery)
-            );
-
-            filteredArticles.forEach((item) => {
-                const originalIndex = articles.findIndex(a => a.id === item.id);
-                const isLight = currentMode === 'light';
-                const cardClass = isLight ? 'bg-white/80 border-black/10 shadow-md' : 'bg-black/40 border-white/10 shadow-xl';
-
-                if (listEl) {
-                    listEl.innerHTML += `
-                        <div class="card-box backdrop-blur-md p-6 rounded-2xl border transition hover:scale-[1.01] flex flex-col justify-between ${cardClass}">
-                            <div>
-                                <span class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-current/10 border border-current/20 mb-3">${item.category}</span>
-                                <h3 class="font-bold text-xl mb-2 line-clamp-2">${item.title}</h3>
-                                <p class="opacity-80 text-sm leading-relaxed mb-4 line-clamp-3">${item.desc}</p>
-                            </div>
-                            <div class="pt-4 border-t border-current/10 flex justify-between items-center text-xs opacity-75">
-                                <span><i class="far fa-clock ml-1"></i> مطالعه: ۵ دقیقه</span>
-                                <button onclick="viewArticle(${item.id})" class="font-bold hover:underline flex items-center gap-1">مطالعه کامل مقاله <i class="fas fa-arrow-left"></i></button>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                if (adminListEl) {
-                    adminListEl.innerHTML += `
-                        <div class="card-box flex flex-wrap justify-between items-center p-4 rounded-xl border gap-3 ${cardClass}">
-                            <div class="max-w-[60%]">
-                                <span class="font-bold text-sm block truncate">${item.title}</span>
-                                <span class="text-xs opacity-75">دسته‌بندی: ${item.category}</span>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="editArticle(${originalIndex})" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1">
-                                    <i class="fas fa-edit"></i> ویرایش
-                                </button>
-                                <button onclick="deleteArticle(${originalIndex})" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1">
-                                    <i class="fas fa-trash"></i> حذف
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            if (countBadge) countBadge.innerText = `تعداد مقالات: ${articles.length}`;
-            if (adminTitle) adminTitle.innerText = `لیست مقالات منتشر شده (${articles.length})`;
-            localStorage.setItem('ai_site_articles', JSON.stringify(articles));
-        }
-
-        function viewArticle(id) {
-            const article = articles.find(a => a.id === id);
-            if (!article) return;
-            
-            const contentDiv = document.getElementById('article-full-content');
-            contentDiv.innerHTML = `
-                <span class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-current/10 border border-current/20">${article.category}</span>
-                <h1 class="text-3xl md:text-4xl font-bold my-3">${article.title}</h1>
-                <p class="text-sm opacity-70 border-b border-current/10 pb-4"><i class="far fa-calendar-alt ml-1"></i> انتشار یافته در آکادمی هوش مصنوعی</p>
-                <div class="text-base opacity-90 leading-loose space-y-4 pt-2 whitespace-pre-line">${article.content}</div>
-            `;
-            showSection('article-view');
-        }
-
-        function showSection(section) {
-            ['home-section', 'article-view-section', 'tools-section', 'login-section', 'admin-dashboard'].forEach(s => {
-                document.getElementById(s).classList.add('hidden');
-            });
-            document.getElementById(`${section}-section`).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function checkAdminAccess() {
-            if (sessionStorage.getItem('is_admin_logged') === 'true') {
-                showSection('admin-dashboard');
-            } else {
-                showSection('login');
-            }
-        }
-
-        function loginAdmin() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass === 'hiho2026') {
-                sessionStorage.setItem('is_admin_logged', 'true');
-                document.getElementById('login-error').classList.add('hidden');
-                document.getElementById('admin-pass').value = '';
-                showSection('admin-dashboard');
-            } else {
-                document.getElementById('login-error').classList.remove('hidden');
-            }
-        }
-
-        function logoutAdmin() {
-            sessionStorage.removeItem('is_admin_logged');
-            showSection('home');
-        }
-
-        function saveArticle() {
-            const title = document.getElementById('new-title').value.trim();
-            const category = document.getElementById('new-category').value.trim() || 'عمومی';
-            const desc = document.getElementById('new-desc').value.trim();
-            const content = document.getElementById('new-content').value.trim();
-            const editIndex = parseInt(document.getElementById('edit-index').value);
-
-            if (!title || !desc || !content) {
-                alert('لطفاً عنوان، چکیده و متن کامل مقاله را پر کنید.');
-                return;
-            }
-
-            if (editIndex === -1) {
-                articles.unshift({
-                    id: Date.now(),
-                    title,
-                    category,
-                    desc,
-                    content
-                });
-                alert('مقاله جدید با موفقیت منتشر شد.');
-            } else {
-                articles[editIndex].title = title;
-                articles[editIndex].category = category;
-                articles[editIndex].desc = desc;
-                articles[editIndex].content = content;
-                alert('مقاله با موفقیت ویرایش شد.');
-                cancelEdit();
-            }
-
-            document.getElementById('new-title').value = '';
-            document.getElementById('new-category').value = '';
-            document.getElementById('new-desc').value = '';
-            document.getElementById('new-content').value = '';
-            renderArticles();
-        }
-
-        function editArticle(index) {
-            const item = articles[index];
-            document.getElementById('new-title').value = item.title;
-            document.getElementById('new-category').value = item.category;
-            document.getElementById('new-desc').value = item.desc;
-            document.getElementById('new-content').value = item.content;
-            document.getElementById('edit-index').value = index;
-
-            document.getElementById('form-heading').innerHTML = '<i class="fas fa-edit"></i> ویرایش مقاله';
-            document.getElementById('save-btn').innerHTML = '<i class="fas fa-check"></i> ذخیره تغییرات';
-            document.getElementById('cancel-btn').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function cancelEdit() {
-            document.getElementById('new-title').value = '';
-            document.getElementById('new-category').value = '';
-            document.getElementById('new-desc').value = '';
-            document.getElementById('new-content').value = '';
-            document.getElementById('edit-index').value = '-1';
-
-            document.getElementById('form-heading').innerHTML = '<i class="fas fa-plus-circle"></i> انتشار مقاله یا آموزش جدید';
-            document.getElementById('save-btn').innerHTML = '<i class="fas fa-save"></i> ذخیره و انتشار در سایت';
-            document.getElementById('cancel-btn').classList.add('hidden');
-        }
-
-        function deleteArticle(index) {
-            if (confirm('آیا از حذف این مقاله مطمئن هستید؟')) {
-                articles.splice(index, 1);
-                renderArticles();
-            }
-        }
-
-        function resetDefaultArticles() {
-            if (confirm('آیا می‌خواهید مقالات پیش‌فرض بازگردانی شوند؟ مقالات سفارشی شما پاک خواهند شد.')) {
-                articles = [...defaultArticles];
-                renderArticles();
-                alert('مقالات پیش‌فرض بازنشانی شدند.');
-            }
-        }
-
-        function generatePrompt() {
-            const topic = document.getElementById('prompt-topic').value.trim();
-            const resBox = document.getElementById('prompt-result');
-            if (!topic) { alert('موضوع را وارد کنید.'); return; }
-            resBox.classList.remove('hidden');
-            resBox.innerText = `Act as an expert in ${topic}. Provide a comprehensive step-by-step tutorial, best practices, and real-world examples.`;
-        }
-
-        function calculateCost() {
-            const tokens = parseInt(document.getElementById('token-input').value);
-            const resBox = document.getElementById('cost-result');
-            if (isNaN(tokens) || tokens <= 0) { alert('مقدار معتبر وارد کنید.'); return; }
-            resBox.classList.remove('hidden');
-            resBox.innerText = `تخمین هزینه پردازش: حدود $${((tokens / 1000) * 0.002).toFixed(4)}`;
-        }
-
-        applyTheme();
-        renderArticles();
+        // اجرا هنگام لود صفحه
+        window.onload = handleVisitorStats;
     </script>
 </body>
 </html>
